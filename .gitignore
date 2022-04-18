@@ -12,3 +12,13 @@ web-build/
 
 # macOS
 .DS_Store
+
+# jshint
+.jshintrc
+
+# prettier
+.prettierrc
+.prettierrc.js
+
+# firebase
+firebase.json
