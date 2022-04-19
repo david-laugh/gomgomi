@@ -6,6 +6,8 @@ const colors = {
     while: '#FFFFFF',
     black: '#000000',
     gray: '#949BA5',
+
+    warning: '#CC3300',
 };
 
 export const theme = {
@@ -13,4 +15,6 @@ export const theme = {
     background: colors.green,
     text: colors.black,
     grayText: colors.gray,
+
+    warning: colors.warning,
 };
