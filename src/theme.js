@@ -16,5 +16,9 @@ export const theme = {
     text: colors.black,
     grayText: colors.gray,
 
-    warning: colors.warning,
+    imageBackground: colors.warning,
+    label: colors.warning,
+    inputPlaceholder: colors.warning,
+    inputBorder: colors.warning,
+    errorText: colors.warning,
 };
