@@ -3,7 +3,7 @@ const colors = {
     green: '#C8FFF2',
     red: '#FFC8E2',
     yellow: '#FFF0C8',
-    while: '#FFFFFF',
+    white: '#FFFFFF',
     black: '#000000',
     gray: '#949BA5',
 
@@ -21,4 +21,11 @@ export const theme = {
     inputPlaceholder: colors.warning,
     inputBorder: colors.warning,
     errorText: colors.warning,
+
+    buttonBackground: colors.warning,
+    buttonTitle: colors.black,
+    buttonUnfilledTitle: colors.warning,
+
+    headerTintColor: colors.warning,
+    headerBackground: colors.green,
 };
