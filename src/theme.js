@@ -17,6 +17,8 @@ export const theme = {
     grayText: colors.gray,
 
     imageBackground: colors.warning,
+    imageButtonBackground: colors.warning,
+    imageButtonIcon: colors.white,
     label: colors.warning,
     inputPlaceholder: colors.warning,
     inputBorder: colors.warning,
@@ -28,4 +30,7 @@ export const theme = {
 
     headerTintColor: colors.warning,
     headerBackground: colors.green,
+
+    spinnerBackground: colors.warning,
+    spinnerIndicator: colors.warning,
 };
