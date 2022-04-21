@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import styled, { ThemeContext } from 'styled-components/native';
-import { StyleSheet, Text, FlatList, LogBox } from 'react-native';
+import { StyleSheet, Text, FlatList, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import moment from 'moment';
 
@@ -25,14 +25,13 @@ const styles = StyleSheet.create({
 
         elevation: 6,
     },
+    container: {
+        flex: 1,
+        padding: 0,
+    },
 });
 const ItemContainer = styled.TouchableOpacity`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
     padding: 15px 20px;
-
-    background: #ffffff;
     box-shadow: 0px 16px 32px rgba(245, 248, 252, 0.6);
     border-radius: 15px;
 
@@ -49,11 +48,24 @@ const ItemTitle = styled.Text`
 const ItemDescription = styled.Text`
     font-size: 16px;
     margin-top: 5px;
-    color: ${({ theme }) => theme.listTime};
+    color: ${({ theme }) => theme.grayText};
 `;
 const ItemTime = styled.Text`
     font-size: 12px;
-    color: ${({ theme }) => theme.listTime};
+    margin-top: 5px;
+    margin-left: 10px;
+    color: ${({ theme }) => theme.grayText};
+`;
+const ItemIntro = styled.Text`
+    font-size: 10px;
+    color: ${({ theme }) => theme.text};
+`;
+const ItemStartChat = styled.View`
+    left: 5%;
+    height: 20%;
+    width: 90%;
+    border-radius: 15px;
+    background: #d6e7ff;
 `;
 
 const channels = [];
@@ -93,9 +105,11 @@ const Item = React.memo(
             >
                 <ItemTextContainer>
                     <ItemTitle>{title}</ItemTitle>
-                    <ItemDescription>{description}</ItemDescription>
+                    <View style={[styles.container, { flexDirection: 'row' }]}>
+                        <ItemDescription>{description}</ItemDescription>
+                        <ItemTime>{getDateOrTime(createdAt)}</ItemTime>
+                    </View>
                 </ItemTextContainer>
-                <ItemTime>{getDateOrTime(createdAt)}</ItemTime>
                 <MaterialIcons
                     name="keyboard-arrow-right"
                     size={24}
@@ -112,7 +126,19 @@ const ChatTalk = ({ navigation }) => {
     };
     return (
         <Container>
-            <Text style={{ fontSize: 30 }}>최근 나눈 대화</Text>
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <ItemIntro style={{ fontSize: 20 }}>안녕하세요</ItemIntro>
+                <ItemIntro>곰고미와 채팅하기에 오신것을 환영합니다!</ItemIntro>
+                <ItemIntro>
+                    망설이지 말고 당신의 고민을 곰고미에게 털어놓아 보세요!
+                </ItemIntro>
+            </View>
+            <ItemStartChat>
+                <Text>대화 시작하기</Text>
+            </ItemStartChat>
+            <View>
+                <Text>최근 나눈 대화</Text>
+            </View>
             <FlatList
                 keyExtractor={(item) => item['id'].toString()}
                 data={channels}

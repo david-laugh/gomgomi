@@ -46,3 +46,8 @@ export const signup = async ({ email, password, name, photoUrl }) => {
     });
     return user;
 };
+
+export const getCurrentUser = () => {
+    const { uid, displayName, email, photoURL } = Auth.currentUser;
+    return { uid, name: displayName, email, photoUrl: photoURL };
+};

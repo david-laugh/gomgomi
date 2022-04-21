@@ -1,53 +1,30 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { Text } from 'react-native';
 import {
-    Avatar,
-    Bubble,
     SystemMessage,
     Message,
     MessageText,
+    Bubble,
 } from 'react-native-gifted-chat';
-
-export const renderAvatar = (props) => (
-    <Avatar
-        {...props}
-        containerStyle={{
-            left: { borderWidth: 3, borderColor: 'red' },
-            right: {},
-        }}
-        imageStyle={{
-            left: { borderWidth: 3, borderColor: 'blue' },
-            right: {},
-        }}
-    />
-);
 
 export const renderBubble = (props) => (
     <Bubble
         {...props}
         // renderTime={() => <Text>Time</Text>}
         // renderTicks={() => <Text>Ticks</Text>}
-        containerStyle={{
-            left: { borderColor: 'teal', borderWidth: 8 },
-            right: {},
-        }}
         wrapperStyle={{
-            left: { borderColor: 'tomato', borderWidth: 4 },
-            right: {},
-        }}
-        bottomContainerStyle={{
-            left: { borderColor: 'purple', borderWidth: 4 },
-            right: {},
-        }}
-        tickStyle={{}}
-        usernameStyle={{ color: 'tomato', fontWeight: '100' }}
-        containerToNextStyle={{
-            left: { borderColor: 'navy', borderWidth: 4 },
-            right: {},
-        }}
-        containerToPreviousStyle={{
-            left: { borderColor: 'mediumorchid', borderWidth: 4 },
-            right: {},
+            right: {
+                backgroundColor: '#212226',
+                borderRadius: 10,
+                borderBottomRightRadius: 0,
+                maxWidth: '60%',
+            },
+            left: {
+                backgroundColor: '#F3F3F3',
+                borderRadius: 10,
+                borderBottomLeftRadius: 0,
+                maxWidth: '60%',
+            },
         }}
     />
 );
@@ -62,41 +39,16 @@ export const renderSystemMessage = (props) => (
 );
 
 export const renderMessage = (props) => (
-    <Message
-        {...props}
-        // renderDay={() => <Text>Date</Text>}
-        containerStyle={{
-            left: { backgroundColor: 'lime' },
-            right: { backgroundColor: 'gold' },
-        }}
-    />
+    <Message {...props} renderDay={() => <Text>Date</Text>} />
 );
 
 export const renderMessageText = (props) => (
     <MessageText
         {...props}
-        containerStyle={{
-            left: { backgroundColor: 'yellow' },
-            right: { backgroundColor: 'purple' },
-        }}
         textStyle={{
-            left: { color: 'red' },
-            right: { color: 'green' },
+            left: { color: '#212226' },
+            right: { color: '#FFFFFF' },
         }}
-        linkStyle={{
-            left: { color: 'orange' },
-            right: { color: 'orange' },
-        }}
-        customTextStyle={{ fontSize: 24, lineHeight: 24 }}
+        customTextStyle={{ fontSize: 13, lineHeight: 20 }}
     />
-);
-
-export const renderCustomView = ({ user }) => (
-    <View style={{ minHeight: 20, alignItems: 'center' }}>
-        <Text>
-            Current user:
-            {user.name}
-        </Text>
-        <Text>From CustomView</Text>
-    </View>
 );

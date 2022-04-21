@@ -2,26 +2,14 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components/native';
 import initialMessages from '../examples/messages';
 import { GiftedChat } from 'react-native-gifted-chat';
+import { renderInputToolbar, renderSend } from '../utils/InputToolbar';
 import {
-    renderInputToolbar,
-    renderActions,
-    renderComposer,
-    renderSend,
-} from '../utils/InputToolbar';
-import {
-    renderAvatar,
-    renderBubble,
     renderSystemMessage,
-    renderMessage,
     renderMessageText,
-    renderCustomView,
+    renderMessage,
+    renderBubble,
 } from '../components/MessageContainer';
-
-const user = {
-    _id: 1,
-    name: 'Aaron',
-    avatar: 'https://placeimg.com/150/150/any',
-};
+import { theme } from '../theme';
 
 const Container = styled.View`
     flex: 1;
@@ -29,7 +17,6 @@ const Container = styled.View`
 `;
 
 const ChatRoom = () => {
-    const [text, setText] = useState('');
     const [messages, setMessages] = useState([]);
 
     useEffect(() => {
@@ -45,44 +32,21 @@ const ChatRoom = () => {
     return (
         <Container>
             <GiftedChat
+                placeholder="Enter a message..."
                 messages={messages}
-                text={text}
-                onInputTextChanged={setText}
-                onSend={onSend}
+                showAvatarForEveryMessage={true}
+                onSend={(messages) => onSend(messages)}
                 user={{
                     _id: 1,
                     name: 'Aaron',
                     avatar: 'https://placeimg.com/150/150/any',
                 }}
-                alignTop
-                alwaysShowSend
-                scrollToBottom
-                // showUserAvatar
-                renderAvatarOnTop
-                renderUsernameOnMessage
-                bottomOffset={26}
-                onPressAvatar={console.log}
-                renderInputToolbar={renderInputToolbar}
-                renderActions={renderActions}
-                renderComposer={renderComposer}
-                renderSend={renderSend}
-                renderAvatar={renderAvatar}
+                messagesContainerStyle={{ backgroundColor: '#E5E5E5' }}
                 renderBubble={renderBubble}
                 renderSystemMessage={renderSystemMessage}
-                renderMessage={renderMessage}
-                renderMessageText={renderMessageText}
-                // renderMessageImage
-                renderCustomView={renderCustomView}
-                isCustomViewBottom
-                messagesContainerStyle={{ backgroundColor: 'indigo' }}
-                parsePatterns={(linkStyle) => [
-                    {
-                        pattern: /#(\w+)/,
-                        style: linkStyle,
-                        onPress: (tag) =>
-                            console.log(`Pressed on hashtag: ${tag}`),
-                    },
-                ]}
+                // renderMessage={renderMessage}
+                renderInputToolbar={renderInputToolbar}
+                renderSend={renderSend}
             />
         </Container>
     );

@@ -12,7 +12,7 @@ const colors = {
 
 export const theme = {
     // 임시 배경화면
-    background: colors.green,
+    background: colors.white,
     text: colors.black,
     grayText: colors.gray,
 
