@@ -33,4 +33,10 @@ export const theme = {
 
     spinnerBackground: colors.warning,
     spinnerIndicator: colors.warning,
+
+    listBorder: colors.warning,
+    listTime: colors.warning,
+
+    sendButtonActivate: colors.warning,
+    sendButtonInactivate: colors.warning,
 };
