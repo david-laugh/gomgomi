@@ -5,13 +5,14 @@ import { Spinner } from '../components';
 import { ProgressContext, UserContext } from '../contexts';
 import MainStack from './MainStack';
 
+// {user?.uid && user?.email ? <MainStack /> : <AuthStack />}
 const Navigation = () => {
     const { inProgress } = useContext(ProgressContext);
     const { user } = useContext(UserContext);
 
     return (
         <NavigationContainer>
-            {user?.uid && user?.email ? <MainStack /> : <AuthStack />}
+            <MainStack />
             {inProgress && <Spinner />}
         </NavigationContainer>
     );
