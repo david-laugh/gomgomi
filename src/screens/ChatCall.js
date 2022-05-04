@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import { Text, Button, View } from 'react-native';
-import { SvgXml } from 'react-native-svg';
+import { fetchApiCall } from '../utils/fatchApi';
 
 const Container = styled.View`
     flex: 1;
@@ -15,7 +15,6 @@ const _handleChatCallButtonPress = async () => {};
 const ChatCall = ({ navigation }) => {
     return (
         <View>
-            <SvgXml width="200" height="200" uri="../../assets/BG.svg" />
             <Container>
                 <Text style={{ fontSize: 30 }}>당신의 친구 곰고미</Text>
                 <Text style={{ fontSize: 30 }}>

@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
 import styled, { ThemeContext } from 'styled-components/native';
-import { StyleSheet, Text, FlatList, View } from 'react-native';
+import { StyleSheet, Text, FlatList, View, Alert } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import moment from 'moment';
+import { fetchApiCall } from '../utils/fatchApi';
 
 const Container = styled.View`
     flex: 1;
@@ -101,7 +102,8 @@ const Item = React.memo(
         return (
             <ItemContainer
                 style={styles.ItemContainer}
-                onPress={() => onPress({ id, title })}
+                //onPress={() => onPress({ id, title })}
+                onPress={() => onPress('My IP')}
             >
                 <ItemTextContainer>
                     <ItemTitle>{title}</ItemTitle>
@@ -124,6 +126,14 @@ const ChatTalk = ({ navigation }) => {
     const _handleItemPress = (params) => {
         navigation.navigate('ChatRoom', params);
     };
+    const _handleTest = (params) => {
+        try {
+            const data = fetchApiCall(params);
+            console.log(data);
+        } catch (e) {
+            Alert.alert('error', e.message);
+        }
+    };
     return (
         <Container>
             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -143,7 +153,7 @@ const ChatTalk = ({ navigation }) => {
                 keyExtractor={(item) => item['id'].toString()}
                 data={channels}
                 renderItem={({ item }) => (
-                    <Item item={item} onPress={_handleItemPress} />
+                    <Item item={item} onPress={_handleTest} />
                 )}
                 windowSize={3}
             />
