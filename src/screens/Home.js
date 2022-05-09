@@ -1,43 +1,47 @@
-import React from 'react';
-import styled from 'styled-components/native';
-import { Text, TouchableOpacity, Linking } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, FlatList, Text, View } from 'react-native';
 
-const Container = styled.View`
-    flex: 1;
-    justify-content: center;
-    align-items: center;
-    background-color: ${({ theme }) => theme.background};
-`;
+export default App = () => {
+    const [isLoading, setLoading] = useState(true);
+    const [data, setData] = useState([]);
 
-const Home = ({ navigation }) => {
+    const getMovies = async () => {
+        try {
+            const response = await fetch('my ip', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: 'user2',
+                    password: '12345678',
+                }),
+            });
+            const json = await response.json();
+            setData(json.Object);
+            console.log(json);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        getMovies();
+    }, []);
+
     return (
-        <Container>
-            <Container>
-                <Text style={{ fontSize: 30 }}>
-                    곰고미에 오신것을 환영합니다!
-                </Text>
-            </Container>
-            <Container>
-                <Text style={{ fontSize: 30 }}>
-                    곰고미가 건네는 오늘의 한 마디
-                </Text>
-            </Container>
-            <Container>
-                <Text style={{ fontSize: 30 }}>
-                    마음을 다스리는 동영상 보러가기
-                </Text>
-                <TouchableOpacity
-                    onPress={() => {
-                        Linking.openURL(
-                            'https://www.youtube.com/watch?v=kL1oyIm1_FU'
-                        );
-                    }}
-                >
-                    <Text>Youtube channel</Text>
-                </TouchableOpacity>
-            </Container>
-        </Container>
+        <View style={{ flex: 1, padding: 24 }}>
+            {isLoading ? (
+                <ActivityIndicator />
+            ) : (
+                <FlatList
+                    data={data}
+                    renderItem={({ item }) => <Text>{item.title}</Text>}
+                />
+            )}
+        </View>
     );
 };
-
-export default Home;

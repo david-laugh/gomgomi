@@ -14,5 +14,4 @@ export const fetchApiCall = async ({ url }) => {
             console.log(data);
         })
         .catch((err) => console.error(err));
-    return response.json();
 };

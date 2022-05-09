@@ -103,7 +103,7 @@ const Item = React.memo(
             <ItemContainer
                 style={styles.ItemContainer}
                 //onPress={() => onPress({ id, title })}
-                onPress={() => onPress('My IP')}
+                onPress={() => onPress('http://172.30.1.56:8888/login')}
             >
                 <ItemTextContainer>
                     <ItemTitle>{title}</ItemTitle>
