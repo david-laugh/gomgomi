@@ -3,7 +3,7 @@ import styled, { ThemeContext } from 'styled-components/native';
 import { StyleSheet, Text, FlatList, View, Alert } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import moment from 'moment';
-import { fetchApiCall } from '../utils/fatchApi';
+import { fetchApiCall, test } from '../utils/fatchApi';
 
 const Container = styled.View`
     flex: 1;
@@ -128,7 +128,7 @@ const ChatTalk = ({ navigation }) => {
     };
     const _handleTest = (params) => {
         try {
-            const data = fetchApiCall(params);
+            const data = test();
             console.log(data);
         } catch (e) {
             Alert.alert('error', e.message);

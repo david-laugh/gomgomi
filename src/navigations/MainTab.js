@@ -17,7 +17,7 @@ const MainTab = () => {
             <Tab.Screen
                 name="ChatCall"
                 component={ChatCall}
-                options={{ title: 'Chat Call' }}
+                options={{ headerShown: false }}
             />
             <Tab.Screen
                 name="ChatTalk"

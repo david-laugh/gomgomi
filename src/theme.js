@@ -1,11 +1,12 @@
 const colors = {
-    blue: '#CBDEFF',
+    blue: '#3C64B1',
     green: '#C8FFF2',
     red: '#FFC8E2',
     yellow: '#FFF0C8',
     white: '#FFFFFF',
     black: '#000000',
     gray: '#949BA5',
+    pink: '#FCF2F0',
 
     warning: '#CC3300',
 };
@@ -15,6 +16,9 @@ export const theme = {
     background: colors.white,
     text: colors.black,
     grayText: colors.gray,
+
+    profile: colors.blue,
+    commentBackground: colors.pink,
 
     imageBackground: colors.warning,
     imageButtonBackground: colors.warning,
