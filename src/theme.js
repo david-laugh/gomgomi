@@ -20,6 +20,13 @@ export const theme = {
     profile: colors.blue,
     commentBackground: colors.pink,
 
+    testcase1: colors.blue,
+    testcase2: colors.red,
+    testcase3: colors.yellow,
+    testcase4: colors.gray,
+    testcase5: colors.green,
+    testcase6: colors.pink,
+
     imageBackground: colors.warning,
     imageButtonBackground: colors.warning,
     imageButtonIcon: colors.white,
