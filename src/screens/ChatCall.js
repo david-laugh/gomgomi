@@ -21,10 +21,19 @@ const ChatCall = ({ navigation }) => {
                     <View style={styles.case2}>
                         <ImgGomgomi source={Gomgomi} />
                     </View>
-                    <View style={styles.case3}></View>
-                    <View style={styles.case4}></View>
-                    <View style={styles.case5}></View>
-                    <View style={styles.case6}></View>
+                    <View style={styles.case3}>
+                        <Text style={{ textAlign: 'center' }}>당신의 친구 곰고미</Text>
+                    </View>
+                    <View style={styles.case4}>
+                        <Text style={{ textAlign: 'center' }}>망설이지 말고 곰고미에게 당신의 고민을</Text>
+                        <Text style={{ textAlign: 'center' }}>털어놓아 보세요.</Text>
+                    </View>
+                    <View style={styles.case5}>
+                        <Text style={{ textAlign: 'center' }}>곰고미의 큰 귀는 모든 고밀을 향해 열려있습니다!</Text>
+                    </View>
+                    <View style={styles.case6}>
+                        <Button containerStyle={{ width: '50%' }} onPress={_handleChatCallButtonPress} title="곰고미와 전화하기"/>
+                    </View>
                 </View>
             </ImageBackground>
         </View>
@@ -36,7 +45,8 @@ export default ChatCall;
 const ImageBackground = styled.ImageBackground`
     flex: 1;
 `;
-const ImgGomgomi = styled.Image``;
+const ImgGomgomi = styled.Image`
+`;
 const CTGomgomi = styled.View``;
 
 const styles = StyleSheet.create({
@@ -57,31 +67,42 @@ const styles = StyleSheet.create({
     case1: {
         width: '100%',
         height: '14%',
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        justifyContent: 'center',
         backgroundColor: theme.testcase1,
     },
     case2: {
         width: '100%',
         height: '50%',
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        justifyContent: 'center',
         backgroundColor: theme.testcase2,
     },
     case3: {
         width: '100%',
         height: '8%',
+        justifyContent: 'center',
         backgroundColor: theme.testcase3,
     },
     case4: {
         width: '100%',
         height: '8%',
+        justifyContent: 'center',
         backgroundColor: theme.testcase4,
     },
     case5: {
         width: '100%',
         height: '6%',
+        justifyContent: 'center',
         backgroundColor: theme.testcase5,
     },
     case6: {
         width: '100%',
         height: '14%',
+        justifyContent: 'center',
+        alignItems: 'center',
         backgroundColor: theme.testcase6,
     },
 });
