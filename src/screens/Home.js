@@ -1,107 +1,94 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { Text, TouchableOpacity, Linking, View } from 'react-native';
-import { Thumbnail } from 'react-native-thumbnail-video';
+import { Text, View, StyleSheet, Dimensions } from 'react-native';
+import { theme } from '../theme';
 
-const imgProfile = require('../../assets/profile.png');
-const flower = require('../../assets/flower.png');
+const BG = require('../../assets/BG.png');
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const Home = ({ navigation }) => {
     return (
-        <Container>
-            <Profile>
-                <ImgProfile source={imgProfile} />
-                <View>
-                    <TxtProfile style={{ fontSize: 30, letterSpacing: 3 }}>
-                        곰고미
-                    </TxtProfile>
-                    <TxtProfile style={{ fontSize: 18 }}>
-                        곰고미에 오신것을 환영합니다.
-                    </TxtProfile>
+        <View style={[styles.header]}>
+            <ImageBackground source={BG} imageStyle={styles.bgImageStyle}>
+                <View style={styles.container}>
+                    <View style={styles.case1}></View>
+                    <View style={styles.case2}></View>
+                    <View style={styles.case3}>
+                        <View style={styles.commentStyle}>
+                            <Text>곰고미가 건네는 오늘의 한 마디</Text>
+                            <Text>" 잘하고 있어요. 눈길을 걷다보면 꽃길이 된다고 해요!</Text>
+                            <Text>우리 인생의 봄날은 언제나 지금입니다. "</Text>
+                        </View>
+                    </View>
+                    <View style={styles.case4}>
+                        <Text>마음을 다스리는 동영상 보러가기</Text>
+                    </View>
+                    <View style={styles.case5}></View>
                 </View>
-            </Profile>
-
-            <Comment>
-                <TxtComment style={{ fontSize: 30 }}>
-                    곰고미가 건네는 오늘의 한 마디
-                </TxtComment>
-                <TxtComment style={{ fontSize: 30 }}>
-                    "잘하고 있어요. 눈길을 걷다보면 꽃길이 된다고 해요! 우리
-                    인생의 봄날은 언제나 지금입니다."
-                </TxtComment>
-                <ImgComment source={flower} />
-            </Comment>
-
-            <Container>
-                <Text style={{ fontSize: 30 }}>
-                    마음을 다스리는 동영상 보러가기
-                </Text>
-                <Youtube>
-                    <Thumbnail url="https://www.youtube.com/watch?v=kL1oyIm1_FU" />
-                </Youtube>
-
-                <TouchableOpacity
-                    onPress={() => {
-                        Linking.openURL(
-                            'https://www.youtube.com/watch?v=kL1oyIm1_FU'
-                        );
-                    }}
-                >
-                    <Text>Youtube channel</Text>
-                </TouchableOpacity>
-            </Container>
-        </Container>
+            </ImageBackground>
+        </View>
     );
 };
 
 export default Home;
 
-const Container = styled.View`
+const ImageBackground = styled.ImageBackground`
     flex: 1;
-    background-color: ${({ theme }) => theme.background};
 `;
 
-const Profile = styled.View`
-    flex-direction: row;
-`;
-const ImgProfile = styled.Image`
-    left: 38px;
-    right: 306px;
-    top: 92px;
-    bottom: 706px;
-`;
-const TxtProfile = styled.Text`
-    width: 320px;
-    height: 30px;
-    left: 100px;
-    top: 92px;
+const styles = StyleSheet.create({
+    header: { flex: 1 },
+    bgImageStyle: {
+        bottom: 100,
+        width: windowWidth * 1.2,
+        height: windowHeight * 1.2,
+        left: -windowWidth * 0.1,
+        top: -windowHeight * 0.35,
+    },
+    commentStyle: {
+        left: '8%',
+        top: '4%',
+        height: '92%',
+        width: '84%',
+        borderRadius: 15,
+        backgroundColor: theme.commentBackground
+    },
 
-    line-height: 30px;
-    font-weight: 400;
-`;
-
-const Comment = styled.View`
-    flex: 1;
-    height: 136px;
-    left: 24px;
-    top: 176px;
-
-    background-color: ${({ theme }) => theme.commentBackground};
-`;
-const TxtComment = styled.Text`
-    height: 30px;
-    left: 20px;
-    top: 92px;
-
-    line-height: 30px;
-    font-weight: 400;
-`;
-const ImgComment = styled.Image`
-    left: 580px;
-    top: 150px;
-`;
-
-const Youtube = styled.View`
-    width: 264px;
-    height: 320px;
-`;
+    container: {
+        flex: 1,
+    },
+    case1: {
+        width: '100%',
+        height: '9%',
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        justifyContent: 'center',
+        backgroundColor: theme.testcase3,
+    },
+    case2: {
+        width: '100%',
+        height: '12%',
+        justifyContent: 'center',
+        backgroundColor: theme.testcase2,
+    },
+    case3: {
+        width: '100%',
+        height: '20%',
+        backgroundColor: theme.testcase1,
+    },
+    case4: {
+        width: '100%',
+        height: '9%',
+        paddingLeft: '9%',
+        justifyContent: 'center',
+        backgroundColor: theme.testcase4,
+    },
+    case5: {
+        width: '100%',
+        height: '41%',
+        justifyContent: 'center',
+        backgroundColor: theme.testcase5,
+    },
+});

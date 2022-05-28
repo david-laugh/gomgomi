@@ -29,7 +29,7 @@ const ChatCall = ({ navigation }) => {
                         <Text style={{ textAlign: 'center' }}>털어놓아 보세요.</Text>
                     </View>
                     <View style={styles.case5}>
-                        <Text style={{ textAlign: 'center' }}>곰고미의 큰 귀는 모든 고밀을 향해 열려있습니다!</Text>
+                        <Text style={{ textAlign: 'center' }}>곰고미의 큰 귀는 모든 고민을 향해 열려있습니다!</Text>
                     </View>
                     <View style={styles.case6}>
                         <Button containerStyle={{ width: '50%' }} onPress={_handleChatCallButtonPress} title="곰고미와 전화하기"/>
@@ -47,7 +47,6 @@ const ImageBackground = styled.ImageBackground`
 `;
 const ImgGomgomi = styled.Image`
 `;
-const CTGomgomi = styled.View``;
 
 const styles = StyleSheet.create({
     header: { flex: 1 },

@@ -1,79 +1,111 @@
-import React, { useContext, useState } from 'react';
-import styled, { ThemeContext } from 'styled-components/native';
-import { StyleSheet } from 'react-native';
-import { Button, Image, Input } from '../components';
-import { logout, getCurrentUser } from '../utils/firebase';
-import { UserContext, ProgressContext } from '../contexts';
+import React from 'react';
+import styled from 'styled-components/native';
+import { Text, View, StyleSheet, Dimensions } from 'react-native';
+import { theme } from '../theme';
 
-const Container = styled.View`
-    flex: 1;
-    background-color: ${({ theme }) => theme.background};
-    justify-content: center;
-    align-items: center;
-    padding: 0 20px;
-`;
-const style = StyleSheet.create({
-    button: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 12,
+const BG = require('../../assets/BG.png');
 
-        position: 'absolute',
-        width: 154,
-        height: 46,
-        left: 202,
-        top: 357,
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
-        backgroundColor: '#FFFFFF',
-        shadowColor: '#470000',
-        borderRadius: 12,
-    },
-});
-
-const Profile = () => {
-    const { dispatch } = useContext(UserContext);
-    const { spinner } = useContext(ProgressContext);
-    const theme = useContext(ThemeContext);
-
-    const user = getCurrentUser();
-    const [photoUrl, setPhotoUrl] = useState(user.photoUrl);
-
-    const _handleLogoutButtonPress = async () => {
-        try {
-            spinner.start();
-            await logout();
-        } catch (e) {
-            console.log('[Profile] logout: ', e.message);
-        } finally {
-            dispatch({});
-            spinner.stop();
-        }
-    };
-
-    const _handlePhotoChange = () => {};
-
+const Profile = ({ navigation }) => {
     return (
-        <Container>
-            <Image
-                url={photoUrl}
-                onChangeImage={_handlePhotoChange}
-                showButton
-                rounded
-            />
-            <Input label="Name" value={user.name} disabled />
-            <Input label="Email" value={user.email} disabled />
-            <Button
-                title="logout"
-                onPress={_handleLogoutButtonPress}
-                containerStyle={{
-                    marginTop: 30,
-                    backgroundColor: theme.buttonLogout,
-                }}
-            />
-        </Container>
+        <View style={[styles.header]}>
+            <ImageBackground source={BG} imageStyle={styles.bgImageStyle}>
+                <View style={styles.container}>
+                    <View style={styles.case1}>
+                        <Text style={{ textAlign: 'center' }}>Profile</Text>
+                    </View>
+                    <View style={styles.case2}></View>
+                    <View style={styles.case3}>
+                        <Text>John Doe</Text>
+                    </View>
+                    <View style={styles.case4}>
+                        <Text>JohnDoe@Gomgomi.com</Text>
+                    </View>
+                    <View style={styles.case5}></View>
+                    <View style={styles.case6}>
+                        <Text>FAQ</Text>
+                    </View>
+                    <View style={styles.case7}></View>
+                </View>
+            </ImageBackground>
+        </View>
     );
 };
 
 export default Profile;
+
+const ImageBackground = styled.ImageBackground`
+    flex: 1;
+`;
+
+const styles = StyleSheet.create({
+    header: { flex: 1 },
+    bgImageStyle: {
+        bottom: 100,
+        width: windowWidth * 1.2,
+        height: windowHeight * 1.2,
+        left: -windowWidth * 0.1,
+        top: -windowHeight * 0.35,
+    },
+    startChatStyle: {
+        left: '8%',
+        top: '9%',
+        height: '82%',
+        width: '84%',
+        borderRadius: 15,
+        backgroundColor: '#D6E7FF'
+    },
+
+    container: {
+        flex: 1,
+    },
+    case1: {
+        width: '100%',
+        height: '14%',
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        justifyContent: 'center',
+        backgroundColor: theme.testcase1,
+    },
+    case2: {
+        width: '100%',
+        height: '18%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: theme.testcase2,
+    },
+    case3: {
+        width: '100%',
+        height: '7%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: theme.testcase3,
+    },
+    case4: {
+        width: '100%',
+        height: '5%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: theme.testcase4,
+    },
+    case5: {
+        width: '100%',
+        height: '10%',
+        justifyContent: 'center',
+        backgroundColor: theme.testcase5,
+    },
+    case6: {
+        width: '100%',
+        height: '10%',
+        paddingLeft: '9%',
+        justifyContent: 'center',
+        backgroundColor: theme.testcase6,
+    },
+    case7: {
+        width: '100%',
+        height: '30%',
+        backgroundColor: theme.testcase1,
+    },
+});

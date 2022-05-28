@@ -22,9 +22,13 @@ const MainTab = () => {
             <Tab.Screen
                 name="ChatTalk"
                 component={ChatTalk}
-                options={{ title: 'Chat Talk' }}
+                options={{ headerShown: false }}
             />
-            <Tab.Screen name="Profile" component={Profile} />
+            <Tab.Screen 
+                name="Profile"
+                component={Profile}
+                options={{headerShown: false}}
+            />
         </Tab.Navigator>
     );
 };
