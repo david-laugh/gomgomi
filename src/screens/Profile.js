@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import { Text, View, StyleSheet, Dimensions } from 'react-native';
+import { Button } from '../components';
 import { theme } from '../theme';
 
 const BG = require('../../assets/BG.png');
@@ -9,6 +10,10 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const Profile = ({ navigation }) => {
+    const _handleEditProfilePress = () => {
+        navigation.navigate('EditProfile');
+    };
+
     return (
         <View style={[styles.header]}>
             <ImageBackground source={BG} imageStyle={styles.bgImageStyle}>
@@ -23,7 +28,12 @@ const Profile = ({ navigation }) => {
                     <View style={styles.case4}>
                         <Text>JohnDoe@Gomgomi.com</Text>
                     </View>
-                    <View style={styles.case5}></View>
+                    <View style={styles.case5}>
+                        <Button
+                            title="Edit Profile"
+                            onPress={_handleEditProfilePress}
+                        />
+                    </View>
                     <View style={styles.case6}>
                         <Text>FAQ</Text>
                     </View>

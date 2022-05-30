@@ -14,10 +14,16 @@ const Home = ({ navigation }) => {
             <ImageBackground source={BG} imageStyle={styles.bgImageStyle}>
                 <View style={styles.container}>
                     <View style={styles.case1}></View>
-                    <View style={styles.case2}></View>
+                    <View style={styles.case2}>
+                        <View style={styles.profileStyles}></View>
+                        <View style={styles.profileStyles}>
+                            <Text>John Doe</Text>
+                            <Text>곰고미에 오신것을 환영합니다</Text>
+                        </View>
+                    </View>
                     <View style={styles.case3}>
                         <View style={styles.commentStyle}>
-                            <Text>곰고미가 건네는 오늘의 한 마디</Text>
+                            <Text style={{paddingLeft: "5%"}}>곰고미가 건네는 오늘의 한 마디</Text>
                             <Text>" 잘하고 있어요. 눈길을 걷다보면 꽃길이 된다고 해요!</Text>
                             <Text>우리 인생의 봄날은 언제나 지금입니다. "</Text>
                         </View>
@@ -25,7 +31,9 @@ const Home = ({ navigation }) => {
                     <View style={styles.case4}>
                         <Text>마음을 다스리는 동영상 보러가기</Text>
                     </View>
-                    <View style={styles.case5}></View>
+                    <View style={styles.case5}>
+                        <View style={styles.commentStyle}></View>
+                    </View>
                 </View>
             </ImageBackground>
         </View>
@@ -55,6 +63,12 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         backgroundColor: theme.commentBackground
     },
+    profileStyles: {
+        flex: 1,
+        height: '100%',
+        width: '50%',
+        backgroundColor: theme.testcase4,
+    },
 
     container: {
         flex: 1,
@@ -68,6 +82,7 @@ const styles = StyleSheet.create({
         backgroundColor: theme.testcase3,
     },
     case2: {
+        flexDirection: 'row',
         width: '100%',
         height: '12%',
         justifyContent: 'center',
@@ -88,7 +103,6 @@ const styles = StyleSheet.create({
     case5: {
         width: '100%',
         height: '41%',
-        justifyContent: 'center',
         backgroundColor: theme.testcase5,
     },
 });
