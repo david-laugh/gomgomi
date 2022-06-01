@@ -6,106 +6,118 @@ import { images } from '../utils/images';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { validateEmail, removeWhitespace } from '../utils/common';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Alert } from 'react-native';
+import { Alert, View, StyleSheet, Text } from 'react-native';
+import { theme } from '../theme';
 import { login } from '../utils/firebase';
 
-const Container = styled.View`
-    flex: 1;
-    justify-content: center;
-    align-items: center;
-    background-color: ${({ theme }) => theme.background};
-    padding: 0 20px;
-    padding-top: ${({ insets: { top } }) => top}px;
-    padding-bottom: ${({ insets: { bottom } }) => bottom}px;
-`;
-const ErrorText = styled.Text`
-    align-items: flex-start;
-    width: 100%;
-    height: 20px;
-    margin-bottom: 10px;
-    line-height: 20px;
-    color: ${({ theme }) => theme.errorText};
-`;
-
 const Login = ({ navigation }) => {
-    const { dispatch } = useContext(UserContext);
-    const { spinner } = useContext(ProgressContext);
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const passwordRef = useRef();
-    const [errorMessage, setErrorMessage] = useState('');
-    const [disabled, setDisabled] = useState(true);
-    const insets = useSafeAreaInsets();
-
-    useEffect(() => {
-        setDisabled(!(email && password && !errorMessage));
-    }, [email, password, errorMessage]);
-
-    const _handleEmailChange = (email) => {
-        const changedEmail = removeWhitespace(email);
-        setEmail(changedEmail);
-        setErrorMessage(
-            validateEmail(changedEmail) ? '' : 'Please verify your email.'
-        );
-    };
-    const _handlePasswordChange = (password) => {
-        setPassword(removeWhitespace(password));
-    };
-    const _handleLoginButtonPress = async () => {
-        try {
-            spinner.start();
-            const user = await login({ email, password });
-            console.log(user);
-            dispatch(user);
-        } catch (e) {
-            Alert.alert('Login Error', e.message);
-        } finally {
-            spinner.stop();
-        }
-    };
-
     return (
         <KeyboardAwareScrollView
             contentContainerStyle={{ flex: 1 }}
             extraScrollHeight={20}
         >
-            <Container insets={insets}>
-                <Image
-                    url={images.gomgomi_icon}
-                    imageStyle={{ borderRadius: 8 }}
-                />
-                <Input
-                    label="Email"
-                    value={email}
-                    onChangeText={_handleEmailChange}
-                    onSubmitEditing={() => passwordRef.current.focus()}
-                    placeholer="Email"
-                    returnKeyType="next"
-                />
-                <Input
-                    ref={passwordRef}
-                    label="Password"
-                    value={password}
-                    onChangeText={_handlePasswordChange}
-                    onSubmitEditing={_handleLoginButtonPress}
-                    placeholder="Password"
-                    returnKeyType="done"
-                    isPassword
-                />
-                <ErrorText>{errorMessage}</ErrorText>
-                <Button
-                    title="Login"
-                    onPress={_handleLoginButtonPress}
-                    disabled={disabled}
-                />
-                <Button
-                    title="Sign up with email"
-                    onPress={() => navigation.navigate('Signup')}
-                    isFilled={false}
-                />
-            </Container>
+            <View style={styles.container}>
+                <View style={styles.case1}></View>
+                <View style={styles.case2}>
+                    <Image
+                        url={images.gomgomi_icon}
+                        imageStyle={{ borderRadius: 8 }}
+                    />
+                </View>
+                <View style={styles.case3}>
+                    <Text>반갑습니다!</Text>
+                    <Text>회원 서비스 이용을 위해 로그인 해주세요.</Text>
+                </View>
+                <View style={styles.case4}>
+                    <Input
+                        label="Email"
+                    />
+                </View>
+                <View style={styles.case5}>
+                    <Input
+                        label="Password"
+                    />
+                </View>
+                <View style={styles.case6}>
+                    <Text>자동으로 로그인하기</Text>
+                </View>
+                <View style={styles.case7}>
+                    <Button
+                        title="로그인하기"
+                        onPress={() => navigation.navigate('Signup')}
+                    />
+                </View>
+                <View style={styles.case8}>
+                    <Text>계정이 없으신가요?</Text>
+                    <Button
+                        title="회원가입 하기"
+                        onPress={() => navigation.navigate('Signup')}
+                        isFilled={false}
+                    />
+                </View>
+            </View>
         </KeyboardAwareScrollView>
     );
 };
 
 export default Login;
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: theme.background,
+    },
+
+    case1: {
+        width: '100%',
+        height: '19%',
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        justifyContent: 'center',
+        backgroundColor: theme.testcase1,
+    },
+    case2: {
+        width: '100%',
+        height: '15%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: theme.testcase2,
+    },
+    case3: {
+        width: '100%',
+        height: '15%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: theme.testcase3,
+    },
+    case4: {
+        width: '100%',
+        height: '12%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: theme.testcase4,
+    },
+    case5: {
+        width: '100%',
+        height: '12%',
+        justifyContent: 'center',
+        backgroundColor: theme.testcase5,
+    },
+    case6: {
+        width: '100%',
+        height: '3%',
+        paddingLeft: '9%',
+        justifyContent: 'center',
+        backgroundColor: theme.testcase6,
+    },
+    case7: {
+        width: '100%',
+        height: '9%',
+        backgroundColor: theme.testcase1,
+    },
+    case8: {
+        width: '100%',
+        height: '15%',
+        backgroundColor: theme.testcase3,
+    }
+});
