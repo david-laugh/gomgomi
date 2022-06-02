@@ -11,7 +11,7 @@ const Label = styled.Text`
     font-size: 14px;
     font-weight: 600;
     margin-bottom: 6px;
-    color: ${({ theme, isFocused }) => (isFocused ? theme.text : theme.label)};
+    color: ${({ theme, isFocused }) => (isFocused ? theme.label : theme.testcase4)};
 `;
 const StyledTextInput = styled.TextInput.attrs(({ theme }) => ({
     placeholderTextColor: theme.inputPlaceholder,
@@ -22,7 +22,7 @@ const StyledTextInput = styled.TextInput.attrs(({ theme }) => ({
     font-size: 16px;
     border: 1px solid
         ${({ theme, isFocused }) =>
-            isFocused ? theme.text : theme.inputBorder};
+            isFocused ? theme.testcase1 : theme.inputBorder};
     border-radius: 4px;
 `;
 

@@ -10,6 +10,8 @@ import { Alert, View, StyleSheet, Text } from 'react-native';
 import { theme } from '../theme';
 import { login } from '../utils/firebase';
 
+const Gomgomi = require('../../assets/gomgomi_head.png');
+
 const Login = ({ navigation }) => {
     return (
         <KeyboardAwareScrollView
@@ -19,14 +21,11 @@ const Login = ({ navigation }) => {
             <View style={styles.container}>
                 <View style={styles.case1}></View>
                 <View style={styles.case2}>
-                    <Image
-                        url={images.gomgomi_icon}
-                        imageStyle={{ borderRadius: 8 }}
-                    />
+                    <ImgGomgomi source={Gomgomi} />
                 </View>
                 <View style={styles.case3}>
-                    <Text>반갑습니다!</Text>
-                    <Text>회원 서비스 이용을 위해 로그인 해주세요.</Text>
+                    <Text style={styles.textCase1} >반갑습니다!</Text>
+                    <Text style={styles.textCase2} >{"\n"}회원 서비스 이용을 위해 로그인 해주세요.</Text>
                 </View>
                 <View style={styles.case4}>
                     <Input
@@ -43,14 +42,34 @@ const Login = ({ navigation }) => {
                 </View>
                 <View style={styles.case7}>
                     <Button
+                        containerStyle={{
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            height: '80%'
+                        }}
                         title="로그인하기"
+                        titleStyle={{
+                            fontSize: 20,
+                            fontWeight: "bold",
+                            color: '#FFFFFF'
+                        }}
                         onPress={() => navigation.navigate('Signup')}
                     />
                 </View>
                 <View style={styles.case8}>
-                    <Text>계정이 없으신가요?</Text>
+                    <View
+                        style={{width: "50%", alignItems: 'flex-end'}}
+                    >
+                        <Text style={styles.textCase2}>계정이 없으신가요?</Text>
+                    </View>
                     <Button
+                        containerStyle={{
+                            width: "50%",
+                            justifyContent: 'center',
+                            paddingLeft: 10
+                        }}
                         title="회원가입 하기"
+                        titleStyle={{fontSize: 14}}
                         onPress={() => navigation.navigate('Signup')}
                         isFilled={false}
                     />
@@ -62,10 +81,25 @@ const Login = ({ navigation }) => {
 
 export default Login;
 
+const ImgGomgomi = styled.Image`
+`;
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: theme.background,
+        alignItems: 'center',
+        // backgroundColor: theme.background,
+    },
+    textCase1: {
+        fontSize: 25,
+        fontWeight: "bold",
+        letterSpacing: 3,
+    },
+    textCase2: {
+        color: '#86888a'//theme.gray
+    },
+    checkbox: {
+        alignSelf: "center",
     },
 
     case1: {
@@ -74,34 +108,34 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'flex-end',
         justifyContent: 'center',
-        backgroundColor: theme.testcase1,
+        // backgroundColor: theme.testcase1,
     },
     case2: {
         width: '100%',
         height: '15%',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: theme.testcase2,
+        // backgroundColor: theme.testcase2,
     },
     case3: {
         width: '100%',
         height: '15%',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: theme.testcase3,
+        // backgroundColor: theme.testcase3,
     },
     case4: {
-        width: '100%',
+        width: '90%',
         height: '12%',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: theme.testcase4,
+        // backgroundColor: theme.testcase4,
     },
     case5: {
-        width: '100%',
+        width: '90%',
         height: '12%',
         justifyContent: 'center',
-        backgroundColor: theme.testcase5,
+        // backgroundColor: theme.testcase5,
     },
     case6: {
         width: '100%',
@@ -111,13 +145,17 @@ const styles = StyleSheet.create({
         backgroundColor: theme.testcase6,
     },
     case7: {
-        width: '100%',
+        width: '90%',
         height: '9%',
-        backgroundColor: theme.testcase1,
+        justifyContent: 'center',
+        // backgroundColor: theme.testcase1,
     },
     case8: {
         width: '100%',
-        height: '15%',
-        backgroundColor: theme.testcase3,
+        height: '5%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        // backgroundColor: theme.testcase3,
     }
 });
