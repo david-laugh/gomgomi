@@ -12,7 +12,7 @@ const Navigation = () => {
 
     return (
         <NavigationContainer>
-            <AuthStack />
+            <MainStack />
             {inProgress && <Spinner />}
         </NavigationContainer>
     );
