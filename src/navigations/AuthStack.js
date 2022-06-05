@@ -28,6 +28,7 @@ const AuthStack = () => {
                 component={Signup}
                 options={{
                     headerBackTitleVisible: false,
+                    title: "Sign Up",
                     headerStyle: {
                         backgroundColor: theme.headerBackground,
                     },

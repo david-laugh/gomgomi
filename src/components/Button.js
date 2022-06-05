@@ -7,21 +7,18 @@ const TRANSPARENT = 'transparent';
 const Container = styled.TouchableOpacity`
     background-color: ${({ theme, isFilled }) =>
         isFilled ? theme.buttonBackground : TRANSPARENT};
-    align-items: center;
     border-radius: 4px;
     width: 100%;
-    padding: 10px;
+    height: 100%;
     opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
 `;
 const Title = styled.Text`
-    height: 30px;
-    line-height: 30px;
     font-size: 16px;
     color: ${({ theme, isFilled }) =>
         isFilled ? theme.buttonTitle : theme.buttonUnfilledTitle};
 `;
 
-const Button = ({ containerStyle, title, onPress, isFilled, disabled }) => {
+const Button = ({ containerStyle, title, titleStyle, onPress, isFilled, disabled }) => {
     return (
         <Container
             style={containerStyle}
@@ -29,7 +26,7 @@ const Button = ({ containerStyle, title, onPress, isFilled, disabled }) => {
             isFilled={isFilled}
             disabled={disabled}
         >
-            <Title isFilled={isFilled}>{title}</Title>
+            <Title style={titleStyle} isFilled={isFilled}>{title}</Title>
         </Container>
     );
 };
@@ -40,6 +37,7 @@ Button.defaultProps = {
 
 Button.propTypes = {
     containerStyle: PropTypes.object,
+    titleStyle: PropTypes.object,
     title: PropTypes.string,
     onPress: PropTypes.func.isRequired,
     isFilled: PropTypes.bool,

@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { ActivityIndicator } from 'react-native';
 import styled, { ThemeContext } from 'styled-components/native';
+import { BallIndicator } from 'react-native-indicators';
 
 const Container = styled.View`
     position: absolute;
@@ -15,8 +16,12 @@ const Container = styled.View`
 const Spinner = () => {
     const theme = useContext(ThemeContext);
     return (
+        // <Container>
+        //     <ActivityIndicator size={'large'} color={theme.spinnerIndicator} />
+        //     <BallIndicator color='#9a9a9a' count={12} size={50}/>
+        // </Container>
         <Container>
-            <ActivityIndicator size={'large'} color={theme.spinnerIndicator} />
+            <BallIndicator color='#9a9a9a' count={12} size={50}/>
         </Container>
     );
 };
