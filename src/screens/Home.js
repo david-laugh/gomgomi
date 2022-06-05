@@ -4,6 +4,7 @@ import { Text, View, StyleSheet, Dimensions } from 'react-native';
 import { theme } from '../theme';
 import { BarChart } from "react-native-gifted-charts";
 
+const BG = require('../../assets/BG.png');
 const profile = require('../../assets/profile.png');
 const green = require('../../assets/emoji/green.png');
 const blue = require('../../assets/emoji/blue.png');
@@ -16,13 +17,13 @@ const windowHeight = Dimensions.get('window').height;
 
 const Home = ({ navigation }) => {
     const data = [
-        {value: 53, label: '월', frontColor: '#FFD561'},
-        {value: 21, label: '화', frontColor: '#92D7F8'},
+        {value: 50, label: '월', frontColor: '#FFD561'},
+        {value: 75, label: '화', frontColor: '#92D7F8'},
         {value: 0, label: '수'},
-        {value: 100, label: '목', frontColor: '#FFD561'},
-        {value: 80, label: '금', frontColor: '#177AD5'},
-        {value: 45, label: '토', frontColor: '#D6674C'},
-        {value: 60, label: '일', frontColor: '#B9D859'},
+        {value: 50, label: '목', frontColor: '#FFD561'},
+        {value: 30, label: '금', frontColor: '#177AD5'},
+        {value: 10, label: '토', frontColor: '#D6674C'},
+        {value: 100, label: '일', frontColor: '#B9D859'},
     ];
     const maxData = [
         {value: 100, label: '월'},
@@ -33,130 +34,139 @@ const Home = ({ navigation }) => {
         {value: 100, label: '토'},
         {value: 100, label: '일'},
     ];
+    const count_day = 6
 
     return (
         <View style={[styles.header]}>
-            <View style={styles.container}>
-                <View style={styles.case1}></View>
-                <View style={styles.case2}>
-                    <View style={styles.profileStyles}>
-                        <ImgProfile 
-                            style={{
-                                height: windowWidth * 0.15,
-                                width: windowWidth * 0.15
-                            }}
-                            source={profile}
-                        />
-                        <View style={{paddingLeft: '5%'}}>
-                            <Text style={{fontSize: 20}}>John Doe</Text>
-                            <Text style={{height: 7}}></Text>
-                            <Text style={styles.textCase2}>곰고미에 오신것을 환영합니다</Text>
-                        </View>
-                    </View>
-                </View>
-                <View style={styles.case3}>
-                    <Text style={styles.textCase1}>Weekly Graph</Text>
-                </View>
-                <View style={styles.case4}>
-                    <View style={styles.commentStyle}>
-                        <View
-                            style={{
-                                height: '15%',
-                                width: '100%',
-                                alignItems: 'center',
-                                justifyContent: 'center'}}
-                        >
-                            <Text
-                                style={styles.textCase3}
-                            >{"< \t 2022.05.30 ~ 2022.06.03 \t >"}</Text>
-                        </View>
-                        <View style={styles.chartStyle}>
-                            <View style={styles.emojiStyles}>
-                                <ImgEmoji
-                                    style={styles.imgEmojiStyles}
-                                    source={green}
-                                />
-                                <ImgEmoji
-                                    style={styles.imgEmojiStyles}
-                                    source={blue}
-                                />
-                                <ImgEmoji
-                                    style={styles.imgEmojiStyles}
-                                    source={yellow}
-                                />
-                                <ImgEmoji
-                                    style={styles.imgEmojiStyles}
-                                    source={purple}
-                                />
-                                <ImgEmoji
-                                    style={styles.imgEmojiStyles}
-                                    source={red}
-                                />
-                            </View>
-                            <View style={{alignItems:'flex-end', justifyContent: 'flex-end'}}>
-                                <View 
-                                    style={{
-                                        bottom: -windowHeight * 0.3372,
-                                        left: -windowWidth * 0.1,
-                                        // backgroundColor: theme.testcase4,
-                                    }}
-                                >
-                                    <BarChart
-                                        maxValue={100}
-                                        height={270}
-                                        initialSpacing={0}
-                                        data = {maxData}
-                                        barWidth={22}
-                                        barBorderRadius={20}
-                                        frontColor="lightgray"
-                                        yAxisThickness={0}
-                                        xAxisThickness={0}
-                                        hideYAxisText
-                                        hideRules/>
-                                </View>
-                                <View 
-                                    style={{
-                                        bottom: windowHeight * 0.03,
-                                        left: -windowWidth * 0.1,
-                                        // backgroundColor: theme.testcase4,
-                                    }}
-                                >
-                                    <BarChart
-                                        maxValue={100}
-                                        height={270}
-                                        initialSpacing={0}
-                                        data = {data}
-                                        barWidth={22}
-                                        barBorderRadius={20}
-                                        frontColor="lightgray"
-                                        yAxisThickness={0}
-                                        xAxisThickness={0}
-                                        hideYAxisText
-                                        hideRules/>
-                                </View>
+            <ImageBackground
+                source={BG}
+                imageStyle={styles.bgImageStyle}
+            >
+                <View style={styles.container}>
+                    <View style={styles.case1}></View>
+                    <View style={styles.case2}>
+                        <View style={styles.profileStyles}>
+                            <ImgProfile 
+                                style={{
+                                    height: windowWidth * 0.15,
+                                    width: windowWidth * 0.15
+                                }}
+                                source={profile}
+                            />
+                            <View style={{paddingLeft: '5%'}}>
+                                <Text style={{fontSize: 20}}>John Doe</Text>
+                                <Text style={{height: 7}}></Text>
+                                <Text style={styles.textCase2}>곰고미에 오신것을 환영합니다</Text>
                             </View>
                         </View>
                     </View>
-                </View>
-                <View style={styles.case5}>
-                    <Text style={styles.textCase1}>일주일간 5일의 대화 이용을 하셨네요.</Text>
-                    <View style={{flexDirection:'row', height:'35%', alignItems:'center' }}>
-                        <Text style={styles.textCase1}>평균 기분은</Text>
-                        <ImgEmoji
-                            style={styles.textEmojiStyles}
-                            source={yellow}
-                        />
-                        <Text style={styles.textCase1}>이예요.</Text>
+                    <View style={styles.case3}>
+                        <Text style={styles.textCase1}>Weekly Graph</Text>
                     </View>
-                    <Text style={styles.textCase1}>곰고미와 더 즐거운 대화를 나눠봐요!</Text>
+                    <View style={styles.case4}>
+                        <View style={styles.commentStyle}>
+                            <View
+                                style={{
+                                    height: '15%',
+                                    width: '100%',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'}}
+                            >
+                                <Text
+                                    style={styles.textCase3}
+                                >{"< \t 2022.05.30 ~ 2022.06.03 \t >"}</Text>
+                            </View>
+                            <View style={styles.chartStyle}>
+                                <View style={styles.emojiStyles}>
+                                    <ImgEmoji
+                                        style={styles.imgEmojiStyles}
+                                        source={green}
+                                    />
+                                    <ImgEmoji
+                                        style={styles.imgEmojiStyles}
+                                        source={blue}
+                                    />
+                                    <ImgEmoji
+                                        style={styles.imgEmojiStyles}
+                                        source={yellow}
+                                    />
+                                    <ImgEmoji
+                                        style={styles.imgEmojiStyles}
+                                        source={purple}
+                                    />
+                                    <ImgEmoji
+                                        style={styles.imgEmojiStyles}
+                                        source={red}
+                                    />
+                                </View>
+                                <View style={{alignItems:'flex-end', justifyContent: 'flex-end'}}>
+                                    <View 
+                                        style={{
+                                            bottom: -windowHeight * 0.3372,
+                                            left: -windowWidth * 0.1,
+                                            // backgroundColor: theme.testcase4,
+                                        }}
+                                    >
+                                        <BarChart
+                                            maxValue={100}
+                                            height={270}
+                                            initialSpacing={0}
+                                            data = {maxData}
+                                            barWidth={22}
+                                            barBorderRadius={20}
+                                            frontColor="lightgray"
+                                            yAxisThickness={0}
+                                            xAxisThickness={0}
+                                            hideYAxisText
+                                            hideRules/>
+                                    </View>
+                                    <View 
+                                        style={{
+                                            bottom: windowHeight * 0.03,
+                                            left: -windowWidth * 0.1,
+                                            // backgroundColor: theme.testcase4,
+                                        }}
+                                    >
+                                        <BarChart
+                                            maxValue={100}
+                                            height={270}
+                                            initialSpacing={0}
+                                            data = {data}
+                                            barWidth={22}
+                                            barBorderRadius={20}
+                                            frontColor="lightgray"
+                                            yAxisThickness={0}
+                                            xAxisThickness={0}
+                                            hideYAxisText
+                                            hideRules/>
+                                    </View>
+                                </View>
+                            </View>
+                        </View>
+                    </View>
+                    <View style={styles.case5}>
+                        <Text style={styles.textCase1}>일주일간 {count_day}일의 대화 이용을 하셨네요.</Text>
+                        <View style={{flexDirection:'row', height:'35%', alignItems:'center' }}>
+                            <Text style={styles.textCase1}>평균 기분은</Text>
+                            <ImgEmoji
+                                style={styles.textEmojiStyles}
+                                source={yellow}
+                            />
+                            <Text style={styles.textCase1}>이예요.</Text>
+                        </View>
+                        <Text style={styles.textCase1}>곰고미와 더 즐거운 대화를 나눠봐요!</Text>
+                    </View>
                 </View>
-            </View>
+            </ImageBackground>
         </View>
     );
 };
 
 export default Home;
 
+const ImageBackground = styled.ImageBackground`
+    flex: 1;
+`;
 const ImgProfile = styled.Image`
 `;
 const ImgEmoji = styled.Image`
@@ -167,16 +177,17 @@ const styles = StyleSheet.create({
     bgImageStyle: {
         bottom: 100,
         width: windowWidth * 1.2,
-        height: windowHeight * 1.2,
+        height: windowHeight * 1,
         left: -windowWidth * 0.1,
-        top: -windowHeight * 0.35,
+        top: -windowHeight * 0.2,
     },
     commentStyle: {
         height: '92%',
         width: '90%',
         borderRadius: 15,
-        backgroundColor: "#F8F8F8"
+        backgroundColor: "rgba(255, 255, 255, 0.3)",
     },
+
     chartStyle: {
         flexDirection: 'row',
         height: '92%',

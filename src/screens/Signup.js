@@ -15,7 +15,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const options = [
-    { label: '동의 안함', value: '0' },
+    { label: '선택 안함', value: '0' },
     { label: '여성', value: '1' },
     { label: '남성', value: '2' }
 ];
@@ -24,6 +24,7 @@ const profile = require('../../assets/profile.png');
 
 const Signup = ({ navigation }) => {
     return (
+        // 화면 스크롤 컴포넌트 수정
         <KeyboardAwareScrollView
             contentContainerStyle={{ flex: 1 }}
             extraScrollHeight={20}
@@ -59,6 +60,11 @@ const Signup = ({ navigation }) => {
                 <View style={styles.case5}>
                     <Input
                         label="생년월일 *"
+                    />
+                </View>
+                <View style={styles.case6}>
+                    <Input
+                        label="Email *"
                     />
                 </View>
                 <View style={styles.case6}>

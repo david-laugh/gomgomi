@@ -22,7 +22,8 @@ const MainTab = () => {
                         <Image
                             source={home}
                         />
-                    )
+                    ),
+                    tabBarActiveTintColor: "#000000",
                 }}
             />
             <Tab.Screen
@@ -34,7 +35,8 @@ const MainTab = () => {
                         <Image
                             source={call}
                         />
-                    ) 
+                    ),
+                    tabBarActiveTintColor: "#000000",
                 }}
             />
             <Tab.Screen
@@ -46,7 +48,8 @@ const MainTab = () => {
                         <Image
                             source={chat}
                         />
-                    )
+                    ),
+                    tabBarActiveTintColor: "#000000",
                 }}
             />
             <Tab.Screen 
@@ -58,7 +61,8 @@ const MainTab = () => {
                         <Image
                             source={profile}
                         />
-                    )
+                    ),
+                    tabBarActiveTintColor: "#000000",
                 }}
             />
         </Tab.Navigator>
