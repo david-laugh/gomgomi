@@ -8,6 +8,8 @@ import { validateEmail, removeWhitespace } from '../utils/common';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Alert } from 'react-native';
 import { login } from '../utils/firebase';
+import LiveAudioStream from 'react-native-live-audio-stream';
+
 
 const Container = styled.View`
     flex: 1;
@@ -28,6 +30,7 @@ const ErrorText = styled.Text`
 `;
 
 const Login = ({ navigation }) => {
+
     const { dispatch } = useContext(UserContext);
     const { spinner } = useContext(ProgressContext);
     const [email, setEmail] = useState('');
