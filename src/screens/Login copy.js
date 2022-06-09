@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import { ProgressContext, UserContext } from '../contexts';
 import styled from 'styled-components/native';
-import { Input, Button } from '../components';
+import { Image, Input, Button } from '../components';
 import { images } from '../utils/images';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { validateEmail, removeWhitespace } from '../utils/common';
@@ -32,9 +32,9 @@ const Login = ({ navigation }) => {
     const _handleEmailChange = (email) => {
         const changedEmail = removeWhitespace(email);
         setEmail(changedEmail);
-        // setErrorMessage(
-        //     validateEmail(changedEmail) ? '' : 'Please verify your email.'
-        // );
+        setErrorMessage(
+            validateEmail(changedEmail) ? '' : 'Please verify your email.'
+        );
     };
     const _handlePasswordChange = (password) => {
         setPassword(removeWhitespace(password));
@@ -52,7 +52,7 @@ const Login = ({ navigation }) => {
                     id: email, //'user2',
                     password: password //'12345678',
                 }),
-            }, 3000);
+            });
             const json = await response.json();
             setData(json);
         } catch (error) {
@@ -62,22 +62,14 @@ const Login = ({ navigation }) => {
         }
     };
 
-    // useEffect(() => {
-    //     login(email, password);
-    // }, []);
     // const email1 = 'user2'
     // const password1 = '12345678'
 
     const _handleLoginButtonPress = async () => {
         try {
-            await login(email, password);
             spinner.start();
-
-            const user = {
-                email: email,
-                uid: password,
-                token: data.Token
-            }
+            const user = await login({ email, password });
+            console.log(user);
             dispatch(user);
         } catch (e) {
             Alert.alert('Login Error', e.message);
@@ -86,6 +78,10 @@ const Login = ({ navigation }) => {
         }
     };
 
+    // useEffect(() => {
+    //     getToken(email1, password1);
+    // }, []);
+
     return (
         <KeyboardAwareScrollView
             contentContainerStyle={{ flex: 1 }}
@@ -93,6 +89,7 @@ const Login = ({ navigation }) => {
         >
             <View style={styles.container} insets={insets}>
                 <View style={styles.case1}>
+                    <Text>{data.Token}</Text>
                 </View>
                 <View style={styles.case2}>
                     <ImgGomgomi source={Gomgomi} />
@@ -143,7 +140,6 @@ const Login = ({ navigation }) => {
                         disabled={disabled}
                     />
                 </View>
-                <ErrorText>{errorMessage}</ErrorText>
                 <View style={styles.case8}>
                     <View
                         style={{width: "50%", alignItems: 'flex-end'}}
@@ -170,14 +166,6 @@ const Login = ({ navigation }) => {
 export default Login;
 
 const ImgGomgomi = styled.Image`
-`;
-const ErrorText = styled.Text`
-    align-items: flex-start;
-    width: 100%;
-    height: 20px;
-    margin-bottom: 10px;
-    line-height: 20px;
-    color: ${({ theme }) => theme.grayText};
 `;
 
 const styles = StyleSheet.create({

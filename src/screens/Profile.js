@@ -1,4 +1,5 @@
-import React, {Component} from 'react';
+import React, { useContext } from 'react';
+import { UserContext } from '../contexts';
 import styled from 'styled-components/native';
 import { Text, View, StyleSheet, Dimensions } from 'react-native';
 import { Button, Accordian } from '../components';
@@ -32,12 +33,21 @@ const menu = [
 ]
 
 const Profile = ({ navigation }) => {
+    const { dispatch } = useContext(UserContext);
+
     const _handleEditProfilePress = () => {
         navigation.navigate('EditProfile');
     };
 
-    
-      
+    const _handleLogOutButtonPress = async () => {
+        const user = {
+            email: null,
+            uid: null,
+            token: null,
+        }
+        dispatch(user);
+    };
+
     const renderAccordians=()=> {
         const items = [];
         for (let item of menu) {
@@ -93,7 +103,7 @@ const Profile = ({ navigation }) => {
                                     backgroundColor: '#FFFFFF',
                                     borderRadius: 15
                                 }}
-                                onPress={_handleChatCallButtonPress}
+                                onPress={_handleEditProfilePress}
                                 title="Edit Profile"
                                 titleStyle={{
                                     fontSize: 17,
@@ -117,7 +127,7 @@ const Profile = ({ navigation }) => {
                                     backgroundColor: '#FFFFFF',
                                     borderRadius: 15
                                 }}
-                                onPress={_handleChatCallButtonPress}
+                                onPress={_handleLogOutButtonPress}
                                 title="Log-out"
                                 titleStyle={{
                                     fontSize: 17,
@@ -230,5 +240,3 @@ const styles = StyleSheet.create({
         // backgroundColor: theme.testcase1,
     },
 });
-
-const _handleChatCallButtonPress = async () => {};
