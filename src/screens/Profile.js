@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { UserContext } from '../contexts';
 import styled from 'styled-components/native';
-import { Text, View, StyleSheet, Dimensions } from 'react-native';
+import { Alert, Text, View, StyleSheet, Dimensions } from 'react-native';
 import { Button, Accordian } from '../components';
 import { theme } from '../theme';
 
@@ -33,19 +33,39 @@ const menu = [
 ]
 
 const Profile = ({ navigation }) => {
-    const { dispatch } = useContext(UserContext);
+    const { dispatch, signup } = useContext(UserContext);
 
     const _handleEditProfilePress = () => {
         navigation.navigate('EditProfile');
+        signup();
     };
 
+    const createThreeButtonAlert = () =>
+        Alert.alert(
+            "로그아웃 하시겠습니까?",
+            "'곰고미'의 로그인 화면으로 이동됩니다.\n다시 로그인 후 이용해주세요.",
+            [
+                {
+                    text: "예",
+                    onPress: () => {
+                        const user = {
+                            email: null,
+                            uid: null,
+                            token: null,
+                        }
+                        dispatch(user);
+                    }
+                },
+                {
+                    text: "아니요",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                }
+            ]
+    );
+
     const _handleLogOutButtonPress = async () => {
-        const user = {
-            email: null,
-            uid: null,
-            token: null,
-        }
-        dispatch(user);
+        createThreeButtonAlert()
     };
 
     const renderAccordians=()=> {

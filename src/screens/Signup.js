@@ -2,13 +2,11 @@ import React, { useState, useRef, useEffect, useContext } from 'react';
 import { ProgressContext, UserContext } from '../contexts';
 import styled from 'styled-components/native';
 import { Image, Input, Button } from '../components';
-import { images } from '../utils/images';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { validateEmail, removeWhitespace } from '../utils/common';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Alert, View, StyleSheet, Text, Dimensions } from 'react-native';
+import { Alert, View, StyleSheet, Text, Dimensions, ScrollView } from 'react-native';
 import { theme } from '../theme';
-import { login } from '../utils/firebase';
 import SwitchSelector from 'react-native-switch-selector';
 
 const windowWidth = Dimensions.get('window').width;
@@ -25,10 +23,12 @@ const profile = require('../../assets/profile.png');
 const Signup = ({ navigation }) => {
     return (
         // 화면 스크롤 컴포넌트 수정
+        
         <KeyboardAwareScrollView
             contentContainerStyle={{ flex: 1 }}
             extraScrollHeight={20}
         >
+            <ScrollView>
             <View style={styles.container}>
                 <View style={styles.case2}>
                     <ImgProfile
@@ -53,7 +53,7 @@ const Signup = ({ navigation }) => {
                         onPress={value => console.log(`Call onPress with value: ${value}`)}
                         borderRadius={0}
                         buttonColor={theme.testcase1}
-                        height={55}
+                        height={windowHeight * 0.07}
                         animationDuration={1}
                     />
                 </View>
@@ -89,7 +89,9 @@ const Signup = ({ navigation }) => {
                     />
                 </View>
             </View>
+            </ScrollView>
         </KeyboardAwareScrollView>
+        
     );
 };
 
@@ -107,6 +109,10 @@ const styles = StyleSheet.create({
     textCase1: {
         color: '#86888a'//theme.gray
     },
+    scrollView: {
+        backgroundColor: 'pink',
+        marginHorizontal: 20,
+      },
 
     case1: {
         width: '90%',

@@ -2,18 +2,16 @@ import React, { useState, useRef, useEffect, useContext } from 'react';
 import { ProgressContext, UserContext } from '../contexts';
 import styled from 'styled-components/native';
 import { Input, Button } from '../components';
-import { images } from '../utils/images';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { validateEmail, removeWhitespace } from '../utils/common';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Alert, View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import { theme } from '../theme';
-// import { login } from '../utils/firebase';
 
 const Gomgomi = require('../../assets/gomgomi_head.png');
 
 const Login = ({ navigation }) => {
-    const { dispatch } = useContext(UserContext);
+    const { login } = useContext(UserContext);
     const { spinner } = useContext(ProgressContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -21,9 +19,6 @@ const Login = ({ navigation }) => {
     const [errorMessage, setErrorMessage] = useState('');
     const [disabled, setDisabled] = useState(true);
     const insets = useSafeAreaInsets();
-
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);   
 
     useEffect(() => {
         setDisabled(!(email && password && !errorMessage));
@@ -40,50 +35,8 @@ const Login = ({ navigation }) => {
         setPassword(removeWhitespace(password));
     };
 
-    const login = async (email, password) => {
-        try {
-            const response = await fetch('http://34.64.69.248:8100/login/', {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type' : 'application/json',
-                },
-                body: JSON.stringify({
-                    id: email, //'user2',
-                    password: password //'12345678',
-                }),
-            }, 3000);
-            const json = await response.json();
-            setData(json);
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    // useEffect(() => {
-    //     login(email, password);
-    // }, []);
-    // const email1 = 'user2'
-    // const password1 = '12345678'
-
     const _handleLoginButtonPress = async () => {
-        try {
-            await login(email, password);
-            spinner.start();
-
-            const user = {
-                email: email,
-                uid: password,
-                token: data.Token
-            }
-            dispatch(user);
-        } catch (e) {
-            Alert.alert('Login Error', e.message);
-        } finally {
-            spinner.stop();
-        }
+        login(email, password);
     };
 
     return (
