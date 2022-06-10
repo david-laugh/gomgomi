@@ -1,5 +1,5 @@
 import React, { useState, createContext, useContext } from 'react';
-import { ProgressContext } from '../contexts';
+import { ProgressContext } from './';
 
 const UserContext = createContext({
     user: { 
