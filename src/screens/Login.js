@@ -103,7 +103,7 @@ const Login = ({ navigation }) => {
             const response = await fetch('http://34.64.69.248:8100/api/voice_chatbot/', {
                 method: 'POST',
                 headers: {
-                    Authorization : 'Token c940dfe459dd8068c392e2e475fb40cd1908155d'
+                    'Authorization' : 'Token c940dfe459dd8068c392e2e475fb40cd1908155d'
                 },
                 body: formdata,
             });
@@ -117,6 +117,79 @@ const Login = ({ navigation }) => {
             setLoading(false);
         }
     };
+
+    const [isLoading, setIsLoading] = useState(false);
+
+    const login = async () => {
+        setIsLoading(true);
+        try {
+            const response = await fetch('http://34.64.69.248:8100/login/', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type' : 'application/json',
+                },
+                body: JSON.stringify({
+                    id: 'user2',
+                    password: '12345678',
+                }),
+            }, 3000);
+            const json = await response.json();
+            console.log(json);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const signup = async () => {
+        setIsLoading(true);
+        try {
+            const response = await fetch('http://34.64.69.248:8100/register/', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type' : 'application/json',
+                },
+                body: JSON.stringify({
+                    id: 'test33',
+                    password: '12345678',
+                    email: 'test33@gomgomi.com'
+                }),
+            }, 3000);
+            const json = await response.json();
+            console.log(json);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const chatbot = async () => {
+        setIsLoading(true);
+        try {
+            const response = await fetch('http://34.64.69.248:8100/api/chatbot/', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type' : 'application/json',
+                    'Authorization' : 'Token 0516b76236f56e6615b1a53e1edb7716da36808f'
+                },
+                body: JSON.stringify({
+                    sent : '지금 뭐해?'
+                }),
+            }, 3000);
+            const json = await response.json();
+            console.log(json);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
 
     function getDurationFormatted(millis) {
         const minutes = millis / 1000 / 60;
@@ -154,6 +227,18 @@ const Login = ({ navigation }) => {
                     justifyContent: 'center'
                 }}
             >
+                <Button
+                    title={'login'}
+                    onPress={login}
+                />
+                <Button
+                    title={'signup'}
+                    onPress={signup}
+                />
+                <Button
+                    title={'chatbot'}
+                    onPress={chatbot}
+                />
                 <Text>{message}</Text>
                 <Button
                     title={recording ? 'Stop Recording' : 'Start Recording'}
