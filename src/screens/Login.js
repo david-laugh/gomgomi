@@ -87,8 +87,8 @@ const Login = ({ navigation }) => {
 
         blob.close()
 
-        setBinary(audioBase64);
-        // console.log(audioBase64);
+        setBinary(audioURI);
+        console.log(audioURI);
     }
     //   console.log(recordings);
     //   if (recordings.length > 1) {
@@ -97,13 +97,13 @@ const Login = ({ navigation }) => {
     const formdata = new FormData();
     formdata.append("voice", binary);
     // console.log(formdata);
-
     const getToken = async () => {
         try {
             const response = await fetch('http://34.64.69.248:8100/api/voice_chatbot/', {
                 method: 'POST',
                 headers: {
-                    'Authorization' : 'Token c940dfe459dd8068c392e2e475fb40cd1908155d'
+                    'Authorization' : 'Token c940dfe459dd8068c392e2e475fb40cd1908155d',
+                    'Content-Type' : "multipart/from-data"
                 },
                 body: formdata,
             });
@@ -190,6 +190,24 @@ const Login = ({ navigation }) => {
         }
     };
 
+    const sentiment = async () => {
+        setIsLoading(true);
+        try {
+            const response = await fetch('http://34.64.69.248:8100/api/sentiment/', {
+                method: 'GET',
+                headers: {
+                    'Authorization' : 'Token 0516b76236f56e6615b1a53e1edb7716da36808f'
+                },
+            }, 3000);
+            const json = await response.json();
+            console.log(json);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
 
     function getDurationFormatted(millis) {
         const minutes = millis / 1000 / 60;
@@ -238,6 +256,10 @@ const Login = ({ navigation }) => {
                 <Button
                     title={'chatbot'}
                     onPress={chatbot}
+                />
+                <Button
+                    title={'sentiment'}
+                    onPress={sentiment}
                 />
                 <Text>{message}</Text>
                 <Button
