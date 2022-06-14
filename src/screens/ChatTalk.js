@@ -14,6 +14,10 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const ChatTalk = ({ navigation }) => {
+    const _handleChatCallButtonPress = params => {
+        navigation.navigate('ChatRoom', params);
+    };
+
     return (
         <View style={[styles.header]}>
             <ImageBackground source={BG} imageStyle={styles.bgImageStyle}>
@@ -246,8 +250,6 @@ const styles = StyleSheet.create({
     },
 });
 
-const _handleChatCallButtonPress = async () => {};
-
 const Item = React.memo(
     ({ item: { id, title, description, createdAt }, onPress }) => {
         const theme = useContext(ThemeContext);
@@ -255,7 +257,7 @@ const Item = React.memo(
         return (
             <ItemContainer
                 style={styles.ItemContainer}
-                //onPress={() => onPress({ id, title })}
+                onPress={() => onPress({ id, title })}
                 // onPress={() => onPress('http://172.30.1.56:8888/login')}
             >
                 <ItemTextContainer>

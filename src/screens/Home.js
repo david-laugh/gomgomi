@@ -14,6 +14,8 @@ const red = require('../../assets/emoji/red.png');
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+console.log(windowWidth);
+console.log(windowHeight);
 
 const Home = ({ navigation }) => {
     const data = [
@@ -102,18 +104,19 @@ const Home = ({ navigation }) => {
                                 <View style={{alignItems:'flex-end', justifyContent: 'flex-end'}}>
                                     <View 
                                         style={{
-                                            bottom: -windowHeight * 0.3372,
+                                            position: 'absolute',
+                                            bottom: windowHeight * 0.03,
                                             left: -windowWidth * 0.1,
                                             // backgroundColor: theme.testcase4,
                                         }}
                                     >
                                         <BarChart
                                             maxValue={100}
-                                            height={270}
+                                            height={ windowHeight * 0.3199 }
                                             initialSpacing={0}
-                                            data = {maxData}
-                                            barWidth={22}
-                                            barBorderRadius={20}
+                                            data={maxData}
+                                            barWidth={ windowWidth * 0.05641 }
+                                            barBorderRadius={ windowWidth * 0.05641 }
                                             frontColor="lightgray"
                                             yAxisThickness={0}
                                             xAxisThickness={0}
@@ -122,6 +125,7 @@ const Home = ({ navigation }) => {
                                     </View>
                                     <View 
                                         style={{
+                                            position: 'absolute',
                                             bottom: windowHeight * 0.03,
                                             left: -windowWidth * 0.1,
                                             // backgroundColor: theme.testcase4,
@@ -129,14 +133,15 @@ const Home = ({ navigation }) => {
                                     >
                                         <BarChart
                                             maxValue={100}
-                                            height={270}
+                                            height={ windowHeight * 0.3199 }
                                             initialSpacing={0}
-                                            data = {data}
-                                            barWidth={22}
-                                            barBorderRadius={20}
+                                            data={data}
+                                            barWidth={ windowWidth * 0.05641 }
+                                            barBorderRadius={ windowWidth * 0.05641 }
                                             frontColor="lightgray"
                                             yAxisThickness={0}
                                             xAxisThickness={0}
+                                            disableScroll={true}
                                             hideYAxisText
                                             hideRules/>
                                     </View>

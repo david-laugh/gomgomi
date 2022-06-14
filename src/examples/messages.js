@@ -39,6 +39,30 @@ const messages = [
             avatar: 'https://placeimg.com/140/140/any',
         },
     },
+    {
+        _id: 6,
+        text: '대화를 그만하시겠어요?',
+        createdAt: new Date(Date.UTC(2016, 5, 14, 17, 20, 0)),
+        user: {
+            _id: 2,
+            name: 'React Native',
+            avatar: 'https://placeimg.com/140/140/any',
+        },
+        quickReplies: {
+            type: 'radio', // or 'checkbox',
+            keepIt: true,
+            values: [
+                {
+                    title: '대화 그만하기',
+                    value: 'yes',
+                },
+                {
+                    title: '대화 계속하기',
+                    value: 'no',
+                },
+            ],
+        },
+    },
 ];
 
 export default messages;
