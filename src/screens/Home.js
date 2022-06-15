@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { UserContext } from '../contexts';
 import styled from 'styled-components/native';
 import { Text, View, StyleSheet, Dimensions } from 'react-native';
-import { theme } from '../theme';
 import { BarChart } from "react-native-gifted-charts";
 
 const BG = require('../../assets/BG.png');
@@ -14,10 +14,37 @@ const red = require('../../assets/emoji/red.png');
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-console.log(windowWidth);
-console.log(windowHeight);
+
+const ResultText = ({}) => {
+    return (
+        <View style={styles.case5}>
+            <Text style={styles.textCase1}>일주일간 6일의 대화 이용을 하셨네요.</Text>
+            <View style={{flexDirection:'row', height:'35%', alignItems:'center' }}>
+                <Text style={styles.textCase1}>평균 기분은</Text>
+                <ImgEmoji
+                    style={styles.textEmojiStyles}
+                    source={yellow}
+                />
+                <Text style={styles.textCase1}>이예요.</Text>
+            </View>
+            <Text style={styles.textCase1}>곰고미와 더 즐거운 대화를 나눠봐요!</Text>
+        </View>
+    );
+};
+
+const NoResultText = ({}) => {
+    return (
+        <View style={styles.case5}>
+            <Text style={styles.textCase1}>일주일간의 대화 기록이 없네요.</Text>
+            <Text style={styles.textCase1}>곰고미와 더 즐거운 대화를 나눠봐요!</Text>
+        </View>
+    );
+};
 
 const Home = ({ navigation }) => {
+    const { user, senti } = useContext(UserContext);
+    console.log(senti);
+
     const data = [
         {value: 50, label: '월', frontColor: '#FFD561'},
         {value: 75, label: '화', frontColor: '#92D7F8'},
@@ -56,7 +83,7 @@ const Home = ({ navigation }) => {
                                 source={profile}
                             />
                             <View style={{paddingLeft: '5%'}}>
-                                <Text style={{fontSize: 20}}>John Doe</Text>
+                                <Text style={{fontSize: 20}}>{user.email}</Text>
                                 <Text style={{height: 7}}></Text>
                                 <Text style={styles.textCase2}>곰고미에 오신것을 환영합니다</Text>
                             </View>
@@ -149,18 +176,7 @@ const Home = ({ navigation }) => {
                             </View>
                         </View>
                     </View>
-                    <View style={styles.case5}>
-                        <Text style={styles.textCase1}>일주일간 {count_day}일의 대화 이용을 하셨네요.</Text>
-                        <View style={{flexDirection:'row', height:'35%', alignItems:'center' }}>
-                            <Text style={styles.textCase1}>평균 기분은</Text>
-                            <ImgEmoji
-                                style={styles.textEmojiStyles}
-                                source={yellow}
-                            />
-                            <Text style={styles.textCase1}>이예요.</Text>
-                        </View>
-                        <Text style={styles.textCase1}>곰고미와 더 즐거운 대화를 나눠봐요!</Text>
-                    </View>
+                    {<ResultText />}
                 </View>
             </ImageBackground>
         </View>

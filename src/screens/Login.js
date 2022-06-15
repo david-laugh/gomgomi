@@ -27,9 +27,9 @@ const Login = ({ navigation }) => {
     const _handleEmailChange = (email) => {
         const changedEmail = removeWhitespace(email);
         setEmail(changedEmail);
-        // setErrorMessage(
-        //     validateEmail(changedEmail) ? '' : 'Please verify your email.'
-        // );
+        setErrorMessage(
+            validateEmail(changedEmail) ? '' : 'Please verify your email.'
+        );
     };
     const _handlePasswordChange = (password) => {
         setPassword(removeWhitespace(password));
@@ -64,6 +64,9 @@ const Login = ({ navigation }) => {
                         returnKeyType="next"
                     />
                 </View>
+                <View>
+                    <Text style={styles.textCase3} >{errorMessage}</Text>
+                </View>
                 <View style={styles.case5}>
                     <Input
                         ref={passwordRef}
@@ -77,7 +80,6 @@ const Login = ({ navigation }) => {
                     />
                 </View>
                 <View style={styles.case6}>
-                    <Text>자동으로 로그인하기</Text>
                 </View>
                 <View style={styles.case7}>
                     <Button
@@ -96,7 +98,6 @@ const Login = ({ navigation }) => {
                         disabled={disabled}
                     />
                 </View>
-                <ErrorText>{errorMessage}</ErrorText>
                 <View style={styles.case8}>
                     <View
                         style={{width: "50%", alignItems: 'flex-end'}}
@@ -124,14 +125,6 @@ export default Login;
 
 const ImgGomgomi = styled.Image`
 `;
-const ErrorText = styled.Text`
-    align-items: flex-start;
-    width: 100%;
-    height: 20px;
-    margin-bottom: 10px;
-    line-height: 20px;
-    color: ${({ theme }) => theme.grayText};
-`;
 
 const styles = StyleSheet.create({
     container: {
@@ -145,6 +138,10 @@ const styles = StyleSheet.create({
         letterSpacing: 3,
     },
     textCase2: {
+        color: '#86888a'//theme.gray
+    },
+    textCase3: {
+        alignItems: 'flex-start',
         color: '#86888a'//theme.gray
     },
     checkbox: {

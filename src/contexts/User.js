@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext } from 'react';
+import React, { useState, createContext, useContext, useEffect } from 'react';
 import { ProgressContext } from './';
 
 const UserContext = createContext({
@@ -13,6 +13,7 @@ const UserContext = createContext({
 const UserProvider = ({ children }) => {
     const [user, setUser] = useState({});
     const [chat, setChat] = useState("");
+    const [senti, setSenti] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const { spinner } = useContext(ProgressContext);
 
@@ -43,6 +44,7 @@ const UserProvider = ({ children }) => {
                 token: json.Token
             });
             console.log(user);
+            sentiment();
         } catch (error) {
             console.error(error);
         } finally {
@@ -51,8 +53,28 @@ const UserProvider = ({ children }) => {
         }
     };
 
-    const signup = () => {
-        console.log(user);
+    const signup = async (userName, password, email) => {
+        setIsLoading(true);
+        try {
+            const response = await fetch('http://34.64.69.248:8100/register/', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type' : 'application/json',
+                },
+                body: JSON.stringify({
+                    id: email,
+                    password: password,
+                    email: userName
+                }),
+            }, 3000);
+            const json = await response.json();
+            console.log(json);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const chatbot = async (message) => {
@@ -70,17 +92,33 @@ const UserProvider = ({ children }) => {
                 }),
             }, 3000);
             const json = await response.json();
-            console.log(1)
-            console.log(json);
             setChat(json);
-            console.log(chat);
         } catch (error) {
             console.error(error);
         } finally {
             setIsLoading(false);
         }
     };
-    
+
+    const sentiment = async () => {
+        setIsLoading(true);
+        try {
+            const response = await fetch('http://34.64.69.248:8100/api/sentiment/', {
+                method: 'GET',
+                headers: {
+                    'Authorization' : 'Token ' + user.token
+                },
+            }, 3000);
+            const json = await response.json();
+            console.log(json);
+            setSenti(json);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     return (
         <UserContext.Provider
             value={{ 
@@ -90,7 +128,8 @@ const UserProvider = ({ children }) => {
                 isLoading,
                 dispatch,
                 signup,
-                chatbot
+                chatbot,
+                senti
             }}
         >{children}</UserContext.Provider>
     );
