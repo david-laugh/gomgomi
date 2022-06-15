@@ -1,7 +1,19 @@
 import React, { useState } from 'react';
 import styled from 'styled-components/native';
-import { Icon } from 'react-native-elements'
+import { Icon } from 'react-native-elements';
 import { Text, View, StyleSheet, Dimensions, TouchableOpacity, FlatList } from 'react-native';
+import {
+    BallIndicator,
+    BarIndicator,
+    DotIndicator,
+    MaterialIndicator,
+    PacmanIndicator,
+    PulseIndicator,
+    SkypeIndicator,
+    UIActivityIndicator,
+    WaveIndicator,
+} from 'react-native-indicators';
+import uuid from 'react-native-uuid';
 
 const BG = require('../../assets/BG.png');
 const mike = require('../../assets/mike.png');
@@ -12,12 +24,32 @@ const windowHeight = Dimensions.get('window').height;
 
 const DATA = [
     {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+        id: uuid.v4(),
         user: '안녕',
         gomgomi: '안녕하세요! 저는 곰고미라고 합니다 :)'
     },
     {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+        id: uuid.v4(),
+        user: '반가워 난 이규혁이야',
+        gomgomi:'반가워요 규혁님! 혹시 어떤 고민이 있으신가요?'
+    },
+    {
+        id: uuid.v4(),
+        user: '반가워 난 이규혁이야',
+        gomgomi:'반가워요 규혁님! 혹시 어떤 고민이 있으신가요?'
+    },
+    {
+        id: uuid.v4(),
+        user: '반가워 난 이규혁이야',
+        gomgomi:'반가워요 규혁님! 혹시 어떤 고민이 있으신가요?'
+    },
+    {
+        id: uuid.v4(),
+        user: '반가워 난 이규혁이야',
+        gomgomi:'반가워요 규혁님! 혹시 어떤 고민이 있으신가요?'
+    },
+    {
+        id: uuid.v4(),
         user: '반가워 난 이규혁이야',
         gomgomi:'반가워요 규혁님! 혹시 어떤 고민이 있으신가요?'
     }
@@ -43,9 +75,18 @@ const ChatCallRoom = ({ navigation }) => {
 
     const MikeView = () => {
         return (
-            <TouchableOpacity onPress={_handleMikeButtonPress}>
-                <ImgGomgomi source={mike}/>
-            </TouchableOpacity>
+            <View
+                style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-around'
+                }}
+            >
+                <WaveIndicator />
+                <TouchableOpacity onPress={_handleMikeButtonPress}>
+                    <ImgGomgomi source={mike}/>
+                </TouchableOpacity>
+                <WaveIndicator />
+            </View>
         );
     };
     const ActivatedMikeView = () => {
