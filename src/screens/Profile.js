@@ -1,40 +1,79 @@
-import React, {Component} from 'react';
+import React, { useContext } from 'react';
+import { UserContext } from '../contexts';
 import styled from 'styled-components/native';
-import { Text, View, StyleSheet, Dimensions } from 'react-native';
+import { Alert, Text, View, StyleSheet, Dimensions } from 'react-native';
 import { Button, Accordian } from '../components';
 import { theme } from '../theme';
 
 const BG = require('../../assets/BG.png');
 const profile = require('../../assets/profile.png');
+const faqUser = require('../../assets/faq/user.png');
+const faqChat = require('../../assets/faq/chat.png');
+const faqGlobe = require('../../assets/faq/globe.png');
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
+const menu = [
+    {
+        img: faqUser,
+        title: '개인정보 변경은 어떻게 하나요?',
+        data: "'곰고미' 어플의 홈에서 하단바 가장 우측의 프로필 아이콘을 눌러 화면을 이동하십시오. 해당 프로필 화면에서 'Edit Profile' 을 누르십시오. 'Edit Profile' 에서 당신의 이름, 성별, 생년월일, 이메일 및 비밀번호를 변경할 수 있습니다.",
+    },
+    {
+        img: faqChat,
+        title: '대화를 끝내는 방법을 모르겠어요',
+        data: "'곰고미' 어플의 홈에서 하단바 가장 우측의 프로필 아이콘을 눌러 화면을 이동하십시오. 해당 프로필 화면에서 'Edit Profile' 을 누르십시오. 'Edit Profile' 에서 당신의 이름, 성별, 생년월일, 이메일 및 비밀번호를 변경할 수 있습니다."
+    },
+    {
+        img: faqGlobe,
+        title: '전화 연결이 불안정합니다',
+        data: "'곰고미' 어플의 홈에서 하단바 가장 우측의 프로필 아이콘을 눌러 화면을 이동하십시오. 해당 프로필 화면에서 'Edit Profile' 을 누르십시오. 'Edit Profile' 에서 당신의 이름, 성별, 생년월일, 이메일 및 비밀번호를 변경할 수 있습니다."
+    }
+]
+
 const Profile = ({ navigation }) => {
+    const { dispatch, signup } = useContext(UserContext);
+
     const _handleEditProfilePress = () => {
         navigation.navigate('EditProfile');
+        signup();
     };
 
-    const menu = [
-        { 
-            title: 'Non Veg Biryanis', 
-            data: 'Biryani also known as biriyani, biriani, birani or briyani, is a mixed rice dish with its origins among the Muslims of the Indian subcontinent. This dish is especially popular throughout the Indian subcontinent, as well as among the diaspora from the region. It is also prepared in other regions such as Iraqi Kurdistan.',
-        },
-        { 
-            title: 'Pizzas',
-            data: 'Pizza is a savory dish of Italian origin, consisting of a usually round, flattened base of leavened wheat-based dough topped with tomatoes, cheese, and various other ingredients (anchovies, olives, meat, etc.) baked at a high temperature, traditionally in a wood-fired oven. In formal settings, like a restaurant, pizza is eaten with knife and fork, but in casual settings it is cut into wedges to be eaten while held in the hand. Small pizzas are sometimes called pizzettas.'
-        },
-        { 
-            title: 'Drinks',
-            data: 'A drink (or beverage) is a liquid intended for human consumption. In addition to their basic function of satisfying thirst, drinks play important roles in human culture. Common types of drinks include plain drinking water, milk, coffee, tea, hot chocolate, juice and soft drinks. In addition, alcoholic drinks such as wine, beer, and liquor, which contain the drug ethanol, have been part of human culture for more than 8,000 years.'
-        }
-    ]
-      
+    const createThreeButtonAlert = () =>
+        Alert.alert(
+            "로그아웃 하시겠습니까?",
+            "'곰고미'의 로그인 화면으로 이동됩니다.\n다시 로그인 후 이용해주세요.",
+            [
+                {
+                    text: "예",
+                    onPress: () => {
+                        const user = {
+                            email: null,
+                            uid: null,
+                            token: null,
+                        }
+                        dispatch(user);
+                    }
+                },
+                {
+                    text: "아니요",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                }
+            ]
+    );
+
+    const _handleLogOutButtonPress = async () => {
+        createThreeButtonAlert()
+    };
+
     const renderAccordians=()=> {
         const items = [];
         for (let item of menu) {
             items.push(
-                <Accordian 
+                <Accordian
+                    img = {item.img}
                     title = {item.title}
                     data = {item.data}
                 />
@@ -84,7 +123,7 @@ const Profile = ({ navigation }) => {
                                     backgroundColor: '#FFFFFF',
                                     borderRadius: 15
                                 }}
-                                onPress={_handleChatCallButtonPress}
+                                onPress={_handleEditProfilePress}
                                 title="Edit Profile"
                                 titleStyle={{
                                     fontSize: 17,
@@ -108,7 +147,7 @@ const Profile = ({ navigation }) => {
                                     backgroundColor: '#FFFFFF',
                                     borderRadius: 15
                                 }}
-                                onPress={_handleChatCallButtonPress}
+                                onPress={_handleLogOutButtonPress}
                                 title="Log-out"
                                 titleStyle={{
                                     fontSize: 17,
@@ -123,7 +162,7 @@ const Profile = ({ navigation }) => {
                     </View>
                     <View style={styles.case7}>
                         <View style={styles.container}>
-                            {/* { renderAccordians() } */}
+                            {renderAccordians() }
                         </View>
                     </View>
                 </View>
@@ -221,5 +260,3 @@ const styles = StyleSheet.create({
         // backgroundColor: theme.testcase1,
     },
 });
-
-const _handleChatCallButtonPress = async () => {};

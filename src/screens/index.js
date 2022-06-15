@@ -6,5 +6,16 @@ import ChatCall from './ChatCall';
 import Profile from './Profile';
 import ChatRoom from './ChatRoom';
 import EditProfile from './EditProfile';
+import ChatCallRoom from './ChatCallRoom';
 
-export { Login, Signup, Home, ChatTalk, ChatCall, Profile, ChatRoom, EditProfile };
+export { 
+    Login, 
+    Signup, 
+    Home, 
+    ChatTalk, 
+    ChatCall, 
+    Profile, 
+    ChatRoom, 
+    EditProfile,
+    ChatCallRoom
+};

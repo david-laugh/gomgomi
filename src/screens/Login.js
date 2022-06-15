@@ -1,25 +1,52 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import { ProgressContext, UserContext } from '../contexts';
 import styled from 'styled-components/native';
-import { Image, Input, Button } from '../components';
-import { images } from '../utils/images';
+import { Input, Button } from '../components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { validateEmail, removeWhitespace } from '../utils/common';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Alert, View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import { theme } from '../theme';
-import { login } from '../utils/firebase';
 
 const Gomgomi = require('../../assets/gomgomi_head.png');
 
 const Login = ({ navigation }) => {
+    const { login } = useContext(UserContext);
+    const { spinner } = useContext(ProgressContext);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const passwordRef = useRef();
+    const [errorMessage, setErrorMessage] = useState('');
+    const [disabled, setDisabled] = useState(true);
+    const insets = useSafeAreaInsets();
+
+    useEffect(() => {
+        setDisabled(!(email && password && !errorMessage));
+    }, [email, password, errorMessage]);
+
+    const _handleEmailChange = (email) => {
+        const changedEmail = removeWhitespace(email);
+        setEmail(changedEmail);
+        setErrorMessage(
+            validateEmail(changedEmail) ? '' : 'Please verify your email.'
+        );
+    };
+    const _handlePasswordChange = (password) => {
+        setPassword(removeWhitespace(password));
+    };
+
+    const _handleLoginButtonPress = async () => {
+        login(email, password);
+    };
+
     return (
         <KeyboardAwareScrollView
             contentContainerStyle={{ flex: 1 }}
             extraScrollHeight={20}
         >
-            <View style={styles.container}>
-                <View style={styles.case1}></View>
+            <View style={styles.container} insets={insets}>
+                <View style={styles.case1}>
+                </View>
                 <View style={styles.case2}>
                     <ImgGomgomi source={Gomgomi} />
                 </View>
@@ -30,15 +57,29 @@ const Login = ({ navigation }) => {
                 <View style={styles.case4}>
                     <Input
                         label="Email"
+                        value={email}
+                        onChangeText={_handleEmailChange}
+                        onSubmitEditing={() => passwordRef.current.focus()}
+                        placeholer="Email"
+                        returnKeyType="next"
                     />
+                </View>
+                <View>
+                    <Text style={styles.textCase3} >{errorMessage}</Text>
                 </View>
                 <View style={styles.case5}>
                     <Input
+                        ref={passwordRef}
                         label="Password"
+                        value={password}
+                        onChangeText={_handlePasswordChange}
+                        onSubmitEditing={_handleLoginButtonPress}
+                        placeholder="Password"
+                        returnKeyType="done"
+                        isPassword
                     />
                 </View>
                 <View style={styles.case6}>
-                    <Text>자동으로 로그인하기</Text>
                 </View>
                 <View style={styles.case7}>
                     <Button
@@ -53,7 +94,8 @@ const Login = ({ navigation }) => {
                             fontWeight: "bold",
                             color: '#FFFFFF'
                         }}
-                        onPress={() => navigation.navigate('Signup')}
+                        onPress={_handleLoginButtonPress}
+                        disabled={disabled}
                     />
                 </View>
                 <View style={styles.case8}>
@@ -96,6 +138,10 @@ const styles = StyleSheet.create({
         letterSpacing: 3,
     },
     textCase2: {
+        color: '#86888a'//theme.gray
+    },
+    textCase3: {
+        alignItems: 'flex-start',
         color: '#86888a'//theme.gray
     },
     checkbox: {

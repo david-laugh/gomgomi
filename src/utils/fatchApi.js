@@ -1,62 +1,24 @@
 import React, { useEffect, useState } from 'react';
 
-export const fetchApiCall = async ({ url }) => {
-    const [isLoading, setLoading] = useState(true);
-    const [data, setData] = useState([]);
-
-    const getMovies = async () => {
-        try {
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    id: 'user2',
-                    password: '12345678',
-                }),
-            });
-            const json = await response.json();
-            setData(json.Object);
-            console.log(json);
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setLoading(false);
-        }
-    };
-};
-
-export const test = () => {
-    const [isLoading, setLoading] = useState(false);
-    const [data, setData] = useState([]);
-
-    const getMovies = async () => {
-        try {
-            setLoading(true);
-            setData(null);
-
-            const response = await fetch('http://172.30.1.56:8888/login/', {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    id: 'user2',
-                    password: '12345678',
-                }),
-            });
-            const json = await response.json();
-            setData(json);
-        } catch (error) {
-            console.error(error);
-        }
-
-        setLoading(false);
-    };
-
-    console.log('Test2');
-    console.log(data);
+const chatbot = async () => {
+    setIsLoading(true);
+    try {
+        const response = await fetch('http://34.64.69.248:8100/api/chatbot/', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type' : 'application/json',
+                'Authorization' : 'Token 0516b76236f56e6615b1a53e1edb7716da36808f'
+            },
+            body: JSON.stringify({
+                sent : '지금 뭐해?'
+            }),
+        }, 3000);
+        const json = await response.json();
+        console.log(json);
+    } catch (error) {
+        console.error(error);
+    } finally {
+        setIsLoading(false);
+    }
 };

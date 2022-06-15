@@ -11,6 +11,8 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const ChatCall = ({ navigation }) => {
+    const _handleChatCallButtonPress = () => navigation.navigate('ChatCallRoom');
+
     return (
         <View style={[styles.header]}>
             <ImageBackground 
@@ -135,8 +137,6 @@ const styles = StyleSheet.create({
         height: '19%',
         alignItems: 'center',
         padding: '5%',
-        backgroundColor: theme.testcase6,
+        // backgroundColor: theme.testcase6,
     },
 });
-
-const _handleChatCallButtonPress = async () => {};
