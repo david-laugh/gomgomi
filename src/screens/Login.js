@@ -11,7 +11,29 @@ const Login = ({ navigation }) => {
     const [message, setMessage] = React.useState("");
     const [data, setData] = React.useState("");
     const [binary, setBinary] = React.useState("");
-    const [loading, setLoading] = useState(true);  
+    const [loading, setLoading] = useState(true);
+
+    const RECORDING_OPTIONS_PRESET_HIGH_QUALITY = {
+        isMeteringEnabled: true,
+        android: {
+            extension: '.wav',
+            outputFormat: Audio.RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_MPEG_4,
+            audioEncoder: Audio.RECORDING_OPTION_ANDROID_AUDIO_ENCODER_AAC,
+            sampleRate: 44100,
+            numberOfChannels: 2,
+            bitRate: 128000,
+        },
+        ios: {
+            extension: '.wav',
+            audioQuality: Audio.RECORDING_OPTION_IOS_AUDIO_QUALITY_MAX,
+            sampleRate: 44100,
+            numberOfChannels: 2,
+            bitRate: 128000,
+            linearPCMBitDepth: 16,
+            linearPCMIsBigEndian: false,
+            linearPCMIsFloat: false,
+        },
+    };
 
     async function startRecording() {
         try {
@@ -26,7 +48,7 @@ const Login = ({ navigation }) => {
                 );
             
             const { recording } = await Audio.Recording.createAsync(
-                Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
+                RECORDING_OPTIONS_PRESET_HIGH_QUALITY,
             );
 
             setRecording(recording);
@@ -78,7 +100,7 @@ const Login = ({ navigation }) => {
             const reader = new FileReader(audioURI);
             reader.onload = function() {
                 result = reader.result;
-                console.log(this.result);
+                //console.log(this.result);
             }
             xhr.send(null);
         });
@@ -87,8 +109,8 @@ const Login = ({ navigation }) => {
 
         blob.close()
 
-        setBinary(audioURI);
-        console.log(audioURI);
+        setBinary(audioBase64);
+        console.log(audioBase64);
     }
     //   console.log(recordings);
     //   if (recordings.length > 1) {
@@ -103,7 +125,7 @@ const Login = ({ navigation }) => {
                 method: 'POST',
                 headers: {
                     'Authorization' : 'Token c940dfe459dd8068c392e2e475fb40cd1908155d',
-                    'Content-Type' : "multipart/from-data"
+                    'Content-Type' : "multipart/form-data"
                 },
                 body: formdata,
             });
@@ -111,6 +133,7 @@ const Login = ({ navigation }) => {
             setData(json);
             setLoading(false);
             console.log(json);
+            
         } catch (error) {
             console.error(error);
         } finally {
@@ -217,7 +240,20 @@ const Login = ({ navigation }) => {
         return `${minutesDisplay}:${secondsDisplay}`;
     }
 
+    const test = async () => {
+        const sound = new Audio.Sound();
+        await sound.loadAsync({
+            uri : binary
+        });
+        await sound.playAsync();
+    };
+
+    const _handleLogOutButtonPress = async () => {
+        test()
+    };
+
     function getRecordingLines() {
+        
         return recordings.map((recordingLine, index) => {
             return (
                 <View key={index} style={styles.row}>
@@ -228,7 +264,7 @@ const Login = ({ navigation }) => {
                     </Text>
                     <Button
                         style={styles.button}
-                        onPress={() => recordingLine.sound.replayAsync()}
+                        onPress={_handleLogOutButtonPress}
                         title="Play"
                     />
                 </View>
