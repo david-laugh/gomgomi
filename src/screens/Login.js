@@ -3,15 +3,18 @@ import React, { useState, useRef, useEffect, useContext } from 'react';
 import { ScrollView, Button, StyleSheet, Text, View } from 'react-native';
 import { Audio } from 'expo-av';
 import base64 from 'react-native-base64';
+import * as FileSystem from 'expo-file-system';
 // import { readFile } from "react-native-fs";
 
 const Login = ({ navigation }) => {
     const [recording, setRecording] = React.useState();
     const [recordings, setRecordings] = React.useState([]);
     const [message, setMessage] = React.useState("");
-    const [data, setData] = React.useState("");
+    const [data, setData] = React.useState({});
+    const [kakao, setKakao] = React.useState("");
     const [binary, setBinary] = React.useState("");
     const [loading, setLoading] = useState(true);
+    const [audioUri, setAudioUri] = useState("");
 
     const RECORDING_OPTIONS_PRESET_HIGH_QUALITY = {
         isMeteringEnabled: true,
@@ -25,7 +28,7 @@ const Login = ({ navigation }) => {
         },
         ios: {
             extension: '.wav',
-            audioQuality: Audio.RECORDING_OPTION_IOS_AUDIO_QUALITY_MAX,
+            audioQuality: Audio.RECORDING_OPTION_IOS_AUDIO_QUALITY_MIN,
             sampleRate: 44100,
             numberOfChannels: 2,
             bitRate: 128000,
@@ -52,6 +55,7 @@ const Login = ({ navigation }) => {
             );
 
             setRecording(recording);
+            setAudioUri(recording.getURI())
         } else {
             setMessage("Please grant permission to app to access microphone");
         }
@@ -71,7 +75,7 @@ const Login = ({ navigation }) => {
             duration: getDurationFormatted(status.durationMillis),
             file: recording.getURI()
         });
-        //console.log(updatedRecordings[updatedRecordings.length - 1].file);
+        //// console.log(updatedRecordings[updatedRecordings.length - 1].file);
 
         setRecordings(updatedRecordings);
 
@@ -87,53 +91,64 @@ const Login = ({ navigation }) => {
         };
 
         const audioURI = recording.getURI();
-        const blob = await new Promise((resolve, reject) => {
-            const xhr = new XMLHttpRequest();
-            xhr.onload = function() {
-                resolve(xhr.response);
-            };
-            xhr.onerror = function() {
-                resolve(xhr.response);
-            };
-            xhr.responseType = "blob";
-            xhr.open("GET", audioURI, true);
-            const reader = new FileReader(audioURI);
-            reader.onload = function() {
-                result = reader.result;
-                //console.log(this.result);
-            }
-            xhr.send(null);
-        });
 
-        const audioBase64 = await blobToBase64(blob);
+        // bookmark
+        const testBase64 = await FileSystem.readAsStringAsync(audioURI, { encoding: FileSystem.EncodingType.Base64 })
+        // console.log(testBase64);
 
-        blob.close()
-
-        setBinary(audioBase64);
-        console.log(audioBase64);
+        setBinary(testBase64);
+        //// console.log(base64.encode(audioBase64));
     }
-    //   console.log(recordings);
+    //   // console.log(recordings);
     //   if (recordings.length > 1) {
-    //     console.log(recordings[recordings.length - 1].file);
+    //     // console.log(recordings[recordings.length - 1].file);
     //   }
     const formdata = new FormData();
     formdata.append("voice", binary);
-    // console.log(formdata);
+    // // console.log(binary)
     const getToken = async () => {
         try {
-            const response = await fetch('http://34.64.69.248:8100/api/voice_chatbot/', {
+            const response = await fetch('http://172.30.1.56:8888/api/voice_chatbot/', {
                 method: 'POST',
                 headers: {
                     'Authorization' : 'Token c940dfe459dd8068c392e2e475fb40cd1908155d',
-                    'Content-Type' : "multipart/form-data"
+                    'Content-Type' : "maltipart/form-data"
+                },
+                body: formdata
+            }, 3000);
+            const json = await response.text();
+            console.log(json);
+            console.log('end');
+            setData(json);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // kakao api : TTS
+    const kakaoApi = async () => {
+        console.log(1)
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "KakaoAK 80b269050cd58c9743d68720ddc84692");
+        myHeaders.append("Content-Type", "'application/xml'");
+        var formdata = new FormData();
+        formdata.append("data", "<speak><voice name='WOMAN_DIALOG_BRIGHT'> 그는 그렇게 말했습니다</voice></speak>");
+        try {
+            const response = await fetch('https://kakaoi-newtone-openapi.kakao.com/v1/synthesize', {
+                method: 'POST',
+                headers: {
+                    'Authorization' : 'KakaoAK 80b269050cd58c9743d68720ddc84692',
+                    'Content-Type' : 'application/xml'
                 },
                 body: formdata,
+                redirect: 'follow'
             });
             const json = await response.text();
-            setData(json);
+            setKakao(json);
             setLoading(false);
             console.log(json);
-            
         } catch (error) {
             console.error(error);
         } finally {
@@ -146,14 +161,14 @@ const Login = ({ navigation }) => {
     const login = async () => {
         setIsLoading(true);
         try {
-            const response = await fetch('http://34.64.69.248:8100/login/', {
+            const response = await fetch('http://172.30.1.56:8888/login/', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
                     'Content-Type' : 'application/json',
                 },
                 body: JSON.stringify({
-                    id: 'user2',
+                    id: 'tester@gomgomi.com',
                     password: '12345678',
                 }),
             }, 3000);
@@ -182,7 +197,7 @@ const Login = ({ navigation }) => {
                 }),
             }, 3000);
             const json = await response.json();
-            console.log(json);
+            // console.log(json);
         } catch (error) {
             console.error(error);
         } finally {
@@ -193,7 +208,7 @@ const Login = ({ navigation }) => {
     const chatbot = async () => {
         setIsLoading(true);
         try {
-            const response = await fetch('http://34.64.69.248:8100/api/chatbot/', {
+            const response = await fetch('http://172.30.1.56:8888/api/chatbot/', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -240,16 +255,43 @@ const Login = ({ navigation }) => {
         return `${minutesDisplay}:${secondsDisplay}`;
     }
 
-    const test = async () => {
-        const sound = new Audio.Sound();
-        await sound.loadAsync({
-            uri : binary
-        });
-        await sound.playAsync();
-    };
+    // const [sound1, setSound] = useState();
+    async function ensureDirExists() {
+        const dir = FileSystem.documentDirectory + "myDirectory/";
+        const dirInfo = await FileSystem.getInfoAsync(dir);
+        if (!dirInfo.exists) {
+          console.log("directory doesn't exist, creating...");
+          await FileSystem.makeDirectoryAsync(dir, { intermediates: true });
+        } else {
+          console.log("directory alreay exists");
+        }
+    }
 
     const _handleLogOutButtonPress = async () => {
-        test()
+        // console.log(FileSystem.documentDirectory)
+        // const filename = FileSystem.documentDirectory + "temp22.wav";
+        console.log(audioUri);
+        console.log(base64.decode(data));
+        await FileSystem.writeAsStringAsync(audioUri, data, {
+            encoding: FileSystem.EncodingType.Base64,
+        });
+        console.log(audioUri);
+        const sound = new Audio.Sound();
+        await sound.loadAsync({
+            uri : audioUri
+        });
+        await sound.playAsync();
+        // try {
+        //     const sound = new Expo.Audio.Sound();
+        //     await sound.loadAsync({
+        //         uri : binary
+        //     });
+        //     await sound.playAsync();
+        // } catch (error) {
+        //     console.log(error);
+        // }
+        
+        // console.log(base64.decode(data))
     };
 
     function getRecordingLines() {
@@ -305,6 +347,10 @@ const Login = ({ navigation }) => {
                 <Button
                     title={'Send Audio Files'}
                     onPress={getToken}
+                />
+                <Button
+                    title={'kakao'}
+                    onPress={kakaoApi}
                 />
             </View>
             <ScrollView style={{height: '30%'}}>
