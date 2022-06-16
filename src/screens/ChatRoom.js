@@ -7,8 +7,6 @@ import { GiftedChat } from 'react-native-gifted-chat';
 import { renderInputToolbar, renderSend } from '../utils/InputToolbar';
 import {
     renderSystemMessage,
-    renderMessageText,
-    renderMessage,
     renderBubble,
 } from '../components/MessageContainer';
 import { UserContext } from '../contexts';
@@ -34,22 +32,24 @@ const ChatRoom = ({ navigation }) => {
         setMessages((prevMessages) =>
             GiftedChat.append(prevMessages, newMessages)
         );
-        chatbot(newMessages[0].text);
-        console.log(chat);
-        setMessages((prevMessages) => 
-            GiftedChat.append(prevMessages, [
-                {
-                    _id: uuid.v4(),
-                    text: chat,
-                    createdAt: new Date(Date.UTC(2022, 4, 21, 5, 20, 0)),
-                    user: {
-                        _id: 2,
-                        name: 'Gomgomi',
-                        avatar: gomgomi,
-                    },
-                }
-            ])
-        );
+        setTimeout(() => {
+            chatbot(newMessages[0].text);
+            console.log(chat);
+            setMessages((prevMessages) => 
+                GiftedChat.append(prevMessages, [
+                    {
+                        _id: uuid.v4(),
+                        text: chat,
+                        createdAt: new Date(),
+                        user: {
+                            _id: 2,
+                            name: 'Gomgomi',
+                            avatar: gomgomi,
+                        },
+                    }
+                ])
+            );
+        }, 2000)
     };
 
     return (

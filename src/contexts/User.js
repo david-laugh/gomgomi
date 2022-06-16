@@ -96,6 +96,7 @@ const UserProvider = ({ children }) => {
             }, 3000);
             const json = await response.json();
             setChat(json);
+            console.log(json);
         } catch (error) {
             console.error(error);
         } finally {

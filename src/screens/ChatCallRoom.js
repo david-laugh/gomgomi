@@ -6,7 +6,6 @@ import { Text, View, StyleSheet, Dimensions, TouchableOpacity, FlatList } from '
 import { WaveIndicator } from 'react-native-indicators';
 import uuid from 'react-native-uuid';
 import { Audio } from 'expo-av';
-import base64 from 'react-native-base64';
 import * as FileSystem from 'expo-file-system';
 
 const BG = require('../../assets/BG.png');
@@ -27,26 +26,6 @@ const DATA = [
         user: '반가워 난 이규혁이야',
         gomgomi:'반가워요 규혁님! 혹시 어떤 고민이 있으신가요?'
     },
-    {
-        id: uuid.v4(),
-        user: '반가워 난 이규혁이야',
-        gomgomi:'반가워요 규혁님! 혹시 어떤 고민이 있으신가요?'
-    },
-    {
-        id: uuid.v4(),
-        user: '반가워 난 이규혁이야',
-        gomgomi:'반가워요 규혁님! 혹시 어떤 고민이 있으신가요?'
-    },
-    {
-        id: uuid.v4(),
-        user: '반가워 난 이규혁이야',
-        gomgomi:'반가워요 규혁님! 혹시 어떤 고민이 있으신가요?'
-    },
-    {
-        id: uuid.v4(),
-        user: '반가워 난 이규혁이야',
-        gomgomi:'반가워요 규혁님! 혹시 어떤 고민이 있으신가요?'
-    }
 ];
 
 const Item = ({ user, gomgomi }) => (
@@ -75,7 +54,7 @@ const ChatCallRoom = ({ navigation }) => {
     const [loading, setLoading] = useState(true);
     const [audioUri, setAudioUri] = useState("");
 
-    const { user} = useContext(UserContext);
+    const { user } = useContext(UserContext);
 
 
     const RECORDING_OPTIONS_PRESET_HIGH_QUALITY = {
@@ -84,7 +63,7 @@ const ChatCallRoom = ({ navigation }) => {
             extension: '.wav',
             outputFormat: Audio.RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_MPEG_4,
             audioEncoder: Audio.RECORDING_OPTION_ANDROID_AUDIO_ENCODER_AAC,
-            sampleRate: 44100,
+            sampleRate: 48000,
             numberOfChannels: 2,
             bitRate: 128000,
         },
@@ -98,6 +77,77 @@ const ChatCallRoom = ({ navigation }) => {
             linearPCMIsBigEndian: false,
             linearPCMIsFloat: false,
         },
+    };
+    async function startRecording() {
+        try {
+            const permission = await Audio.requestPermissionsAsync();
+
+            if (permission.status === "granted") {
+                await Audio.setAudioModeAsync(
+                    {
+                        allowsRecordingIOS: true,
+                        playsInSilentModeIOS: true
+                    }
+                );
+            
+            const { recording } = await Audio.Recording.createAsync(
+                RECORDING_OPTIONS_PRESET_HIGH_QUALITY,
+            );
+
+            setRecording(recording);
+            setAudioUri(recording.getURI())
+        } else {
+            setMessage("Please grant permission to app to access microphone");
+        }
+        } catch (err) {
+            console.error('Failed to start recording', err);
+        }
+    }
+
+    async function stopRecording() {
+        setRecording(undefined);
+        await recording.stopAndUnloadAsync();
+
+        let updatedRecordings = [...recordings];
+        const { sound, status } = await recording.createNewLoadedSoundAsync();
+        updatedRecordings.push({
+            sound: sound,
+            duration: getDurationFormatted(status.durationMillis),
+            file: recording.getURI()
+        });
+        //// console.log(updatedRecordings[updatedRecordings.length - 1].file);
+
+        setRecordings(updatedRecordings);
+
+        const audioURI = recording.getURI();
+
+        // bookmark
+        const testBase64 = await FileSystem.readAsStringAsync(audioURI, { encoding: FileSystem.EncodingType.Base64 })
+        console.log(testBase64);
+
+        setBinary(testBase64);
+        //// console.log(base64.encode(audioBase64));
+    }
+
+    const getToken = async () => {
+        const formdata = new FormData();
+        formdata.append("voice", binary);
+        try {
+            const response = await fetch('http://172.30.1.56:8888/api/voice_chatbot/', {
+                method: 'POST',
+                headers: {
+                    'Authorization' : 'Token c940dfe459dd8068c392e2e475fb40cd1908155d',
+                    'Content-Type' : "maltipart/form-data"
+                },
+                body: formdata
+            }, 3000);
+            const json = await response.text();
+            setData(json);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const MikeView = () => {
@@ -125,31 +175,8 @@ const ChatCallRoom = ({ navigation }) => {
     };
     
     const _handleMikeButtonPress = async () => {
-        try {
-            setAMike(true);
-            const permission = await Audio.requestPermissionsAsync();
-
-            if (permission.status === "granted") {
-                await Audio.setAudioModeAsync(
-                    {
-                        allowsRecordingIOS: true,
-                        playsInSilentModeIOS: true
-                    }
-                );
-            
-            const { recording } = await Audio.Recording.createAsync(
-                RECORDING_OPTIONS_PRESET_HIGH_QUALITY,
-            );
-
-            setRecording(recording);
-            setAudioUri(recording.getURI())
-        } else {
-            setAMike(false);
-            setMessage("Please grant permission to app to access microphone");
-        }
-        } catch (err) {
-            console.error('Failed to start recording', err);
-        }
+        setAMike(true);
+        startRecording();
     };
 
     function getDurationFormatted(millis) {
@@ -161,66 +188,21 @@ const ChatCallRoom = ({ navigation }) => {
     }
 
     const _handleActivatedMikeButtonPress = async () => {
-        try {
-            setAMike(false);
-            setRecording(undefined);
-            await recording.stopAndUnloadAsync();
+        setAMike(false);
+        stopRecording();
+        getToken();
 
-            let updatedRecordings = [...recordings];
-            const { sound, status } = await recording.createNewLoadedSoundAsync();
-            updatedRecordings.push({
-                sound: sound,
-                duration: getDurationFormatted(status.durationMillis),
-                file: recording.getURI()
-            });
-            setRecordings(updatedRecordings);
-            const audioURI = recording.getURI();
-            const testBase64 = await FileSystem.readAsStringAsync(
-                audioURI, { encoding: FileSystem.EncodingType.Base64 })
-            setBinary(testBase64);
-            
-            await getToken();
+        await FileSystem.writeAsStringAsync(audioUri, data, {
+            encoding: FileSystem.EncodingType.Base64,
+        });
 
-            //console.log(audioUri);
-            // console.log(base64.decode(data));
-            await FileSystem.writeAsStringAsync(audioUri, data, {
-                encoding: FileSystem.EncodingType.Base64,
-            });
-
-            console.log(audioUri);
-            const AIsound = new Audio.Sound();
-            await AIsound.loadAsync({
-                uri : audioUri
-            });
-            await AIsound.playAsync();
-        } catch (error) {
-            console.log(error)
-        }
+        const sound = new Audio.Sound();
+        await sound.loadAsync({
+            uri : audioUri
+        });
+        await sound.playAsync();
     };
     
-    const getToken = async () => {
-        const formdata = new FormData();
-        formdata.append("voice", binary);
-
-        try {
-            const response = await fetch('http://172.30.1.56:8888/api/voice_chatbot/', {
-                method: 'POST',
-                headers: {
-                    'Authorization' : 'Token ' + user.token,
-                    'Content-Type' : "maltipart/form-data"
-                },
-                body: formdata
-            }, 3000);
-            const json = await response.text();
-            console.log(json);
-            setData(json);
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
     const renderItem = ({ item }) => (
         <Item 
             user={item.user}
