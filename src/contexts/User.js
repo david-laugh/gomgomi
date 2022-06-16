@@ -5,7 +5,8 @@ const UserContext = createContext({
     user: { 
         email: null, 
         uid: null,
-        token: null
+        token: null,
+        userName: null
     },
     dispatch: () => {},
 });
@@ -38,10 +39,12 @@ const UserProvider = ({ children }) => {
                 }),
             }, 3000);
             const json = await response.json();
+            console.log(json);
             setUser({
                 email: email,
                 uid: password,
-                token: json.Token
+                token: json.Token,
+                userName: json.email
             });
             console.log(user);
             sentiment();

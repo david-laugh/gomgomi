@@ -46,22 +46,22 @@ const Home = ({ navigation }) => {
     console.log(senti);
 
     const data = [
+        {value: 50, label: '금', frontColor: '#FFD561'},
+        {value: 75, label: '토', frontColor: '#92D7F8'},
+        {value: 0, label: '일'},
         {value: 50, label: '월', frontColor: '#FFD561'},
-        {value: 75, label: '화', frontColor: '#92D7F8'},
-        {value: 0, label: '수'},
-        {value: 50, label: '목', frontColor: '#FFD561'},
-        {value: 30, label: '금', frontColor: '#177AD5'},
-        {value: 10, label: '토', frontColor: '#D6674C'},
-        {value: 100, label: '일', frontColor: '#B9D859'},
+        {value: 30, label: '화', frontColor: '#177AD5'},
+        {value: 10, label: '수', frontColor: '#D6674C'},
+        {value: 100, label: '목', frontColor: '#B9D859'},
     ];
     const maxData = [
+        {value: 100, label: '금'},
+        {value: 100, label: '토'},
+        {value: 100, label: '일'},
         {value: 100, label: '월'},
         {value: 100, label: '화'},
         {value: 100, label: '수'},
         {value: 100, label: '목'},
-        {value: 100, label: '금'},
-        {value: 100, label: '토'},
-        {value: 100, label: '일'},
     ];
     const count_day = 6
 
@@ -83,7 +83,7 @@ const Home = ({ navigation }) => {
                                 source={profile}
                             />
                             <View style={{paddingLeft: '5%'}}>
-                                <Text style={{fontSize: 20}}>{user.email}</Text>
+                                <Text style={{fontSize: 20}}>{user.userName}</Text>
                                 <Text style={{height: 7}}></Text>
                                 <Text style={styles.textCase2}>곰고미에 오신것을 환영합니다</Text>
                             </View>
@@ -103,7 +103,7 @@ const Home = ({ navigation }) => {
                             >
                                 <Text
                                     style={styles.textCase3}
-                                >{"< \t 2022.05.30 ~ 2022.06.03 \t >"}</Text>
+                                >{"< \t 2022.06.10 ~ 2022.06.16 \t >"}</Text>
                             </View>
                             <View style={styles.chartStyle}>
                                 <View style={styles.emojiStyles}>

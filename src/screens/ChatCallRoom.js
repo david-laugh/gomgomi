@@ -1,19 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { UserContext } from '../contexts';
 import styled from 'styled-components/native';
 import { Icon } from 'react-native-elements';
 import { Text, View, StyleSheet, Dimensions, TouchableOpacity, FlatList } from 'react-native';
-import {
-    BallIndicator,
-    BarIndicator,
-    DotIndicator,
-    MaterialIndicator,
-    PacmanIndicator,
-    PulseIndicator,
-    SkypeIndicator,
-    UIActivityIndicator,
-    WaveIndicator,
-} from 'react-native-indicators';
+import { WaveIndicator } from 'react-native-indicators';
 import uuid from 'react-native-uuid';
+import { Audio } from 'expo-av';
+import base64 from 'react-native-base64';
+import * as FileSystem from 'expo-file-system';
 
 const BG = require('../../assets/BG.png');
 const mike = require('../../assets/mike.png');
@@ -72,6 +66,39 @@ const Item = ({ user, gomgomi }) => (
 
 const ChatCallRoom = ({ navigation }) => {
     const [Amike, setAMike] = useState(false);
+    const [recording, setRecording] = React.useState();
+    const [recordings, setRecordings] = React.useState([]);
+    const [message, setMessage] = React.useState("");
+    const [data, setData] = React.useState({});
+    const [kakao, setKakao] = React.useState("");
+    const [binary, setBinary] = React.useState("");
+    const [loading, setLoading] = useState(true);
+    const [audioUri, setAudioUri] = useState("");
+
+    const { user} = useContext(UserContext);
+
+
+    const RECORDING_OPTIONS_PRESET_HIGH_QUALITY = {
+        isMeteringEnabled: true,
+        android: {
+            extension: '.wav',
+            outputFormat: Audio.RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_MPEG_4,
+            audioEncoder: Audio.RECORDING_OPTION_ANDROID_AUDIO_ENCODER_AAC,
+            sampleRate: 44100,
+            numberOfChannels: 2,
+            bitRate: 128000,
+        },
+        ios: {
+            extension: '.wav',
+            audioQuality: Audio.RECORDING_OPTION_IOS_AUDIO_QUALITY_MIN,
+            sampleRate: 44100,
+            numberOfChannels: 2,
+            bitRate: 128000,
+            linearPCMBitDepth: 16,
+            linearPCMIsBigEndian: false,
+            linearPCMIsFloat: false,
+        },
+    };
 
     const MikeView = () => {
         return (
@@ -98,10 +125,100 @@ const ChatCallRoom = ({ navigation }) => {
     };
     
     const _handleMikeButtonPress = async () => {
-        setAMike(true);
+        try {
+            setAMike(true);
+            const permission = await Audio.requestPermissionsAsync();
+
+            if (permission.status === "granted") {
+                await Audio.setAudioModeAsync(
+                    {
+                        allowsRecordingIOS: true,
+                        playsInSilentModeIOS: true
+                    }
+                );
+            
+            const { recording } = await Audio.Recording.createAsync(
+                RECORDING_OPTIONS_PRESET_HIGH_QUALITY,
+            );
+
+            setRecording(recording);
+            setAudioUri(recording.getURI())
+        } else {
+            setAMike(false);
+            setMessage("Please grant permission to app to access microphone");
+        }
+        } catch (err) {
+            console.error('Failed to start recording', err);
+        }
     };
+
+    function getDurationFormatted(millis) {
+        const minutes = millis / 1000 / 60;
+        const minutesDisplay = Math.floor(minutes);
+        const seconds = Math.round((minutes - minutesDisplay) * 60);
+        const secondsDisplay = seconds < 10 ? `0${seconds}` : seconds;
+        return `${minutesDisplay}:${secondsDisplay}`;
+    }
+
     const _handleActivatedMikeButtonPress = async () => {
-        setAMike(false);
+        try {
+            setAMike(false);
+            setRecording(undefined);
+            await recording.stopAndUnloadAsync();
+
+            let updatedRecordings = [...recordings];
+            const { sound, status } = await recording.createNewLoadedSoundAsync();
+            updatedRecordings.push({
+                sound: sound,
+                duration: getDurationFormatted(status.durationMillis),
+                file: recording.getURI()
+            });
+            setRecordings(updatedRecordings);
+            const audioURI = recording.getURI();
+            const testBase64 = await FileSystem.readAsStringAsync(
+                audioURI, { encoding: FileSystem.EncodingType.Base64 })
+            setBinary(testBase64);
+            
+            await getToken();
+
+            //console.log(audioUri);
+            // console.log(base64.decode(data));
+            await FileSystem.writeAsStringAsync(audioUri, data, {
+                encoding: FileSystem.EncodingType.Base64,
+            });
+
+            console.log(audioUri);
+            const AIsound = new Audio.Sound();
+            await AIsound.loadAsync({
+                uri : audioUri
+            });
+            await AIsound.playAsync();
+        } catch (error) {
+            console.log(error)
+        }
+    };
+    
+    const getToken = async () => {
+        const formdata = new FormData();
+        formdata.append("voice", binary);
+
+        try {
+            const response = await fetch('http://172.30.1.56:8888/api/voice_chatbot/', {
+                method: 'POST',
+                headers: {
+                    'Authorization' : 'Token ' + user.token,
+                    'Content-Type' : "maltipart/form-data"
+                },
+                body: formdata
+            }, 3000);
+            const json = await response.text();
+            console.log(json);
+            setData(json);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const renderItem = ({ item }) => (
@@ -143,6 +260,8 @@ const ChatCallRoom = ({ navigation }) => {
             </ImageBackground>
         </View>
     );
+
+
 };
 
 export default ChatCallRoom;
