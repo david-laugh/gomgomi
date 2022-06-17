@@ -79,6 +79,7 @@ const ChatCallRoom = ({ navigation }) => {
         },
     };
     async function startRecording() {
+        console.log("start")
         try {
             const permission = await Audio.requestPermissionsAsync();
 
@@ -105,6 +106,7 @@ const ChatCallRoom = ({ navigation }) => {
     }
 
     async function stopRecording() {
+        console.log("stop")
         setRecording(undefined);
         await recording.stopAndUnloadAsync();
 
@@ -130,10 +132,11 @@ const ChatCallRoom = ({ navigation }) => {
     }
 
     const getToken = async () => {
+        console.log("get Value")
         const formdata = new FormData();
         formdata.append("voice", binary);
         try {
-            const response = await fetch('http://172.30.1.56:8888/api/voice_chatbot/', {
+            const response = await fetch('http://34.64.69.248:8100/api/voice_chatbot/', {
                 method: 'POST',
                 headers: {
                     'Authorization' : 'Token c940dfe459dd8068c392e2e475fb40cd1908155d',
@@ -190,18 +193,26 @@ const ChatCallRoom = ({ navigation }) => {
     const _handleActivatedMikeButtonPress = async () => {
         setAMike(false);
         stopRecording();
+        
+    };
+    const _handleErrorButton = async () => {
         getToken();
+    }
 
+    const _handleSaveButton = async () => {
+        console.log("save")
         await FileSystem.writeAsStringAsync(audioUri, data, {
             encoding: FileSystem.EncodingType.Base64,
         });
-
+    }
+    const _handlePlayButton = async () => {
+        console.log("play")
         const sound = new Audio.Sound();
         await sound.loadAsync({
             uri : audioUri
         });
         await sound.playAsync();
-    };
+    }
     
     const renderItem = ({ item }) => (
         <Item 
@@ -228,6 +239,17 @@ const ChatCallRoom = ({ navigation }) => {
                         <Text style={styles.textCase1}>Chat Call</Text>
                         <View></View>
                     </View>
+                    <TouchableOpacity onPress={_handleErrorButton}>
+                        <Text>새로고침</Text>
+                    </TouchableOpacity>
+                    <View style={{height : "1%"}}></View>
+                    <TouchableOpacity onPress={_handleSaveButton}>
+                        <Text>새로고침</Text>
+                    </TouchableOpacity>
+                    <View style={{height : "1%"}}></View>
+                    <TouchableOpacity onPress={_handlePlayButton}>
+                        <Text>새로고침</Text>
+                    </TouchableOpacity>
                     <View style={styles.case2}>
                         <FlatList
                             data={DATA}
