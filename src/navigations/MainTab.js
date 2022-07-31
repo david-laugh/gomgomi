@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Home, Home1, ChatCall, ChatTalk, Profile } from '../screens';
+import { Home, ChatCall, ChatTalk, Profile } from '../screens';
 import { Image } from 'react-native';
 
 const call = require('../../assets/tab/call.png');
@@ -28,7 +28,7 @@ const MainTab = () => {
             />
             <Tab.Screen
                 name="ChatCall"
-                component={Home1}
+                component={ChatCall}
                 options={{
                     headerShown: false,
                     tabBarIcon: () => (
