@@ -14,86 +14,87 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 // Home
-const Home = ({ navigation }) => {
-
-    return (
-        <View style={[styles.header]}>
-            <ImageBackground
-                source={BG}
-                imageStyle={styles.bgImageStyle}
-            >
-                <View style={{
-                    flex: 1,
-                    alignItems: 'center',
-                }}>
+export default class Home extends Component {
+        render() {
+        return (
+            <View style={[styles.header]}>
+                <ImageBackground
+                    source={BG}
+                    imageStyle={styles.bgImageStyle}
+                >
                     <View style={{
-                        width: '90%',
-                        height: '10%',
-                        justifyContent: 'center',
-                        marginTop: '10%'
+                        flex: 1,
+                        alignItems: 'center',
                     }}>
                         <Profile />
-                    </View>
-                    <View style={{
-                        width: '90%',
-                        height: '7%',
-                        justifyContent: 'center'
-                    }}>
-                        <Text style={{
-                            fontSize: 20,
-                            fontWeight: "bold",
-                        }}>
-                            Weekly Graph
-                        </Text>
-                    </View>
-                    <View style={{
-                        width: '100%',
-                        height: '50%',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                    }}>
                         <WeeklyGraph />
+                        <GraphExplanation />
                     </View>
-                    <GraphExplanation />
-                </View>
-            </ImageBackground>
-        </View>
-    );
-};
-
-export default Home;
+                </ImageBackground>
+            </View>
+        );
+    };
+}
 
 // _Component
 const Profile = ({}) => {
     return (
         <View style={{
-            flex: 1,
-            height: '100%',
-            flexDirection: 'row',
+            width: '90%',
+            height: '10%',
+            justifyContent: 'center',
+            marginTop: '10%'
         }}>
-            <ImgProfile 
-                style={{
-                    height: windowWidth * 0.15,
-                    width: windowWidth * 0.15
-                }}
-                source={profile}
-            />
-            <View style={{paddingLeft: '5%'}}>
-                <Text style={{fontSize: 20, fontWeight: "bold"}}>홍길동</Text>
-                <Text style={{height: 7}}></Text>
-                <Text style={{color: '#86888a'}}>곰고미에 오신것을 환영합니다</Text>
+            <View style={{
+                flex: 1,
+                height: '100%',
+                flexDirection: 'row',
+            }}>
+                <ImgProfile 
+                    style={{
+                        height: windowWidth * 0.15,
+                        width: windowWidth * 0.15
+                    }}
+                    source={profile}
+                />
+                <View style={{paddingLeft: '5%'}}>
+                    <Text style={{fontSize: 20, fontWeight: "bold"}}>홍길동</Text>
+                    <Text style={{height: 7}}></Text>
+                    <Text style={{color: '#86888a'}}>곰고미에 오신것을 환영합니다</Text>
+                </View>
             </View>
         </View>
     )
 }
 const WeeklyGraph = ({}) => {
     return (
-        <View style={{
-            height: '92%',
-            width: '90%',
-            borderRadius: 15,
-            backgroundColor: "rgba(255, 255, 255, 0.3)",
-        }} />
+        <View>
+            <View style={{
+                width: '90%',
+                height: '7%',
+                justifyContent: 'center'
+            }}>
+                <Text style={{
+                    fontSize: 20,
+                    fontWeight: "bold",
+                }}>
+                    Weekly Graph
+                </Text>
+            </View>
+            <View style={{
+                width: '100%',
+                height: '50%',
+                alignItems: 'center',
+                justifyContent: 'center'
+            }}>
+                <View style={{
+                height: '92%',
+                width: '90%',
+                borderRadius: 15,
+                backgroundColor: "rgba(255, 255, 255, 0.3)",
+            }} />
+            </View>
+        </View>
     )
 }
 const GraphExplanation = ({}) => {
