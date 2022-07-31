@@ -1,6 +1,7 @@
 import Login from './Login';
 import Signup from './Signup';
 import Home from './Home';
+import Home1 from './Home1';
 import ChatTalk from './ChatTalk';
 import ChatCall from './ChatCall';
 import Profile from './Profile';
@@ -17,5 +18,6 @@ export {
     Profile, 
     ChatRoom, 
     EditProfile,
-    ChatCallRoom
+    ChatCallRoom,
+    Home1
 };

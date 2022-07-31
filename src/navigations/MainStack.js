@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { ThemeContext } from 'styled-components/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Home, ChatCall, ChatTalk, Profile, ChatRoom, EditProfile, ChatCallRoom } from '../screens';
+import { Home, Home1, ChatCall, ChatTalk, Profile, ChatRoom, EditProfile, ChatCallRoom } from '../screens';
 import MainTab from './MainTab';
 
 const Stack = createStackNavigator();
@@ -27,7 +27,7 @@ const MainStack = () => {
                 }}
             />
             <Stack.Screen name="Home" component={Home} />
-            <Stack.Screen name="ChatCall" component={ChatCall} />
+            <Stack.Screen name="ChatCall" component={Home1} />
             <Stack.Screen name="ChatTalk" component={ChatTalk} />
             <Stack.Screen name="Profile" component={Profile} />
             <Stack.Screen name="EditProfile" component={EditProfile} />
