@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components/native';
 import { Text, View, StyleSheet, Dimensions } from 'react-native';
+import { Graph } from '../components';
 
 const BG = require('../../assets/BG.png');
 const profile = require('../../assets/profile.png');
@@ -15,7 +16,7 @@ const windowHeight = Dimensions.get('window').height;
 
 // Home
 export default class Home extends Component {
-        render() {
+    render() {
         return (
             <View style={[styles.header]}>
                 <ImageBackground
@@ -68,11 +69,15 @@ const Profile = ({}) => {
 }
 const WeeklyGraph = ({}) => {
     return (
-        <View>
+        <View style={{
+            flex: 1,
+            width: '100%',
+            height: '68%',
+        }}>
             <View style={{
                 width: '90%',
-                height: '7%',
-                justifyContent: 'center'
+                height: '14%',
+                justifyContent: 'center',
             }}>
                 <Text style={{
                     fontSize: 20,
@@ -82,17 +87,19 @@ const WeeklyGraph = ({}) => {
                 </Text>
             </View>
             <View style={{
+                height: '93%',
                 width: '100%',
-                height: '50%',
                 alignItems: 'center',
-                justifyContent: 'center'
+                justifyContent: 'center',
             }}>
                 <View style={{
-                height: '92%',
-                width: '90%',
-                borderRadius: 15,
-                backgroundColor: "rgba(255, 255, 255, 0.3)",
-            }} />
+                    height: '92%',
+                    width: '90%',
+                    borderRadius: 15,
+                    backgroundColor: "rgba(255, 255, 255, 0.3)",
+                }}>
+                    <Graph />
+                </View>
             </View>
         </View>
     )
@@ -104,7 +111,6 @@ const GraphExplanation = ({}) => {
             height: '22%',
             alignItems: 'center',
             justifyContent: 'center',
-            // backgroundColor: theme.testcase5,
         }}>
             <Text style={{
                 fontSize: 20,
