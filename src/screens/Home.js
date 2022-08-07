@@ -97,8 +97,24 @@ const WeeklyGraph = ({}) => {
                     width: '90%',
                     borderRadius: 15,
                     backgroundColor: "rgba(255, 255, 255, 0.3)",
+                    alignItems: 'center',
                 }}>
-                    <Graph />
+                    <View style={{
+                        height: '10%',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}>
+                        <Text>{"< \t 2022.05.30 ~ 2022.06.03 \t >"}</Text>
+                    </View>
+                    <View style={{
+                        flexDirection: 'row',
+                        paddingRight: '5%'
+                    }}>
+                        <View style={{
+                            width: '20%'
+                        }}></View>
+                        <Graph />
+                    </View>
                 </View>
             </View>
         </View>
