@@ -136,7 +136,7 @@ const ChatCallRoom = ({ navigation }) => {
         const formdata = new FormData();
         formdata.append("voice", binary);
         try {
-            const response = await fetch('http://34.64.69.248:8100/api/voice_chatbot/', {
+            const response = await fetch('http://_____/api/voice_chatbot/', {
                 method: 'POST',
                 headers: {
                     'Authorization' : 'Token c940dfe459dd8068c392e2e475fb40cd1908155d',

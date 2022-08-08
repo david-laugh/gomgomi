@@ -1,5 +1,6 @@
 import React, { useState, createContext, useContext, useEffect } from 'react';
 import { ProgressContext } from './';
+import ip_address from './../utils/ip_address';
 
 const UserContext = createContext({
     user: { 
@@ -27,7 +28,7 @@ const UserProvider = ({ children }) => {
         setIsLoading(true);
         try {
             spinner.start;
-            const response = await fetch('http://34.64.69.248:8100/login/', {
+            const response = await fetch(`http://${ip_address}/login/`, {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -59,7 +60,7 @@ const UserProvider = ({ children }) => {
     const signup = async (userName, password, email) => {
         setIsLoading(true);
         try {
-            const response = await fetch('http://34.64.69.248:8100/register/', {
+            const response = await fetch(`http://${ip_address}/register/`, {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -83,7 +84,7 @@ const UserProvider = ({ children }) => {
     const chatbot = async (message) => {
         setIsLoading(true);
         try {
-            const response = await fetch('http://34.64.69.248:8100/api/chatbot/', {
+            const response = await fetch(`http://${ip_address}/api/chatbot/`, {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -107,7 +108,7 @@ const UserProvider = ({ children }) => {
     const sentiment = async () => {
         setIsLoading(true);
         try {
-            const response = await fetch('http://34.64.69.248:8100/api/sentiment/', {
+            const response = await fetch(`http://${ip_address}/api/sentiment/`, {
                 method: 'GET',
                 headers: {
                     'Authorization' : 'Token ' + user.token
