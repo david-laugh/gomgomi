@@ -112,7 +112,48 @@ const WeeklyGraph = ({}) => {
                     }}>
                         <View style={{
                             width: '20%'
-                        }}></View>
+                        }}>
+                            <ImgEmoji 
+                                style={{
+                                    height: windowWidth * 0.1,
+                                    width: windowWidth * 0.1,
+                                    marginBottom: '10%'
+                                }}
+                                source={green}
+                            />
+                            <ImgEmoji 
+                                style={{
+                                    height: windowWidth * 0.1,
+                                    width: windowWidth * 0.1,
+                                    marginBottom: '10%'
+                                }}
+                                source={blue}
+                            />
+                            <ImgEmoji 
+                                style={{
+                                    height: windowWidth * 0.1,
+                                    width: windowWidth * 0.1,
+                                    marginBottom: '10%'
+                                }}
+                                source={yellow}
+                            />
+                            <ImgEmoji 
+                                style={{
+                                    height: windowWidth * 0.1,
+                                    width: windowWidth * 0.1,
+                                    marginBottom: '10%'
+                                }}
+                                source={purple}
+                            />
+                            <ImgEmoji 
+                                style={{
+                                    height: windowWidth * 0.1,
+                                    width: windowWidth * 0.1,
+                                    marginBottom: '10%'
+                                }}
+                                source={red}
+                            />
+                        </View>
                         <Graph />
                     </View>
                 </View>
@@ -148,6 +189,8 @@ const ImageBackground = styled.ImageBackground`
     flex: 1;
 `;
 const ImgProfile = styled.Image`
+`;
+const ImgEmoji = styled.Image`
 `;
 
 const styles = StyleSheet.create({
