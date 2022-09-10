@@ -5,10 +5,9 @@ import { Input, Button } from '../components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { validateEmail, removeWhitespace } from '../utils/common';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Alert, View, StyleSheet, Text, Dimensions, ScrollView } from 'react-native';
+import { Alert, View, StyleSheet, Text, Dimensions } from 'react-native';
 import { theme } from '../theme';
 import SwitchSelector from 'react-native-switch-selector';
-import DateTimePicker from '@react-native-community/datetimepicker';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -22,27 +21,40 @@ const options = [
 const profile = require('../../assets/profile.png');
 
 const EditProfile = ({ navigation }) => {
-    const [date, setDate] = useState(new Date(1598051730000));
-    const [mode, setMode] = useState('date');
-    const [show, setShow] = useState(false);
+    const { signup } = useContext(UserContext);
 
-    const onChange = (event, selectedDate) => {
-        const currentDate = selectedDate;
-        setShow(false);
-        setDate(currentDate);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [userName, setUserName] = useState('');
+
+    const _handleEmailChange = (email) => {
+        const changedEmail = removeWhitespace(email);
+        setEmail(changedEmail);
+        // setErrorMessage(
+        //     validateEmail(changedEmail) ? '' : 'Please verify your email.'
+        // );
+    };
+    const _handlePasswordChange = (password) => {
+        setPassword(removeWhitespace(password));
+    };
+    const _handleUserNameChange = (userName) => {
+        setUserName(removeWhitespace(userName));
     };
 
-    const showMode = (currentMode) => {
-        setShow(true);
-        setMode(currentMode);
-    };
+    const createThreeButtonAlert = () => Alert.alert(
+        "회원가입을 완료했습니다",
+        "'곰고미'의 로그인 화면으로 이동됩니다.\n로그인 후 이용해주세요.",
+        [
+            {
+                text: "예",
+                onPress: () => {navigation.navigate('Login')}
+            }
+        ]
+    );
 
-    const showDatepicker = () => {
-        showMode('date');
-    };
-
-    const showTimepicker = () => {
-        showMode('time');
+    const _handleSignUpButtonPress = () => {
+        signup(userName, password, email);
+        createThreeButtonAlert()
     };
 
     return (
@@ -51,11 +63,8 @@ const EditProfile = ({ navigation }) => {
             contentContainerStyle={{ flex: 1 }}
             extraScrollHeight={20}
         >
-    
-            <ScrollView>
             <View style={styles.container}>
                 <View style={styles.case2}>
-
                     <ImgProfile
                         style={{
                             height: windowWidth * 0.35,
@@ -66,6 +75,9 @@ const EditProfile = ({ navigation }) => {
                 <View style={styles.case3}>
                     <Input
                         label="이름 *"
+                        value={userName}
+                        onChangeText={_handleUserNameChange}
+                        onSubmitEditing={{}}
                     />
                 </View>
                 <View style={styles.case1}>
@@ -82,38 +94,36 @@ const EditProfile = ({ navigation }) => {
                         animationDuration={1}
                     />
                 </View>
-                <View style={styles.case5}>
-                    <DateTimePicker
-                        testID="dateTimePicker"
-                        timeZoneOffsetInMinutes={0}
-                        value={date}
-                        mode={mode}
-                        is24Hour={true}
-                        display="default"
-                        onChange={onChange}
-                    />
+                {/* <View style={styles.case5}>
                     <Input
                         label="생년월일 *"
                     />
-                </View>
+                </View> */}
                 <View style={styles.case6}>
                     <Input
                         label="Email *"
+                        value={email}
+                        onChangeText={_handleEmailChange}
+                        onSubmitEditing={{}}
                     />
                 </View>
                 <View style={styles.case6}>
                     <Input
-                        label="Email *"
+                        label="Password *"
+                        value={password}
+                        onChangeText={_handlePasswordChange}
+                        onSubmitEditing={{}}
+                        isPassword
                     />
                 </View>
                 <View style={styles.case7}>
                     <Button
                         title="회원가입 하기"
-                        onPress={() => navigation.navigate('Login')}
+                        onPress={_handleSignUpButtonPress}
                         containerStyle={{
                             justifyContent: 'center',
                             alignItems: 'center',
-                            height: '80%'
+                            height: '100%'
                         }}
                         titleStyle={{
                             fontSize: 18,
@@ -123,9 +133,7 @@ const EditProfile = ({ navigation }) => {
                     />
                 </View>
             </View>
-            </ScrollView>
         </KeyboardAwareScrollView>
-
     );
 };
 
@@ -200,3 +208,56 @@ const styles = StyleSheet.create({
         // backgroundColor: theme.testcase1,
     }
 });
+
+// import React, {useState} from 'react';
+// import {View, Button, Platform} from 'react-native';
+// import DateTimePicker from '@react-native-community/datetimepicker';
+
+// const Signup = () => {
+//     const [date, setDate] = useState(new Date(1598051730000));
+//     const [mode, setMode] = useState('date');
+//     const [show, setShow] = useState(false);
+
+//     const onChange = (event, selectedDate) => {
+//         const currentDate = selectedDate || date;
+//         setShow(Platform.OS === 'ios');
+//         setDate(currentDate);
+//     };
+
+//     const showMode = currentMode => {
+//         setShow(true);
+//         setMode(currentMode);
+//     };
+
+//     const showDatepicker = () => {
+//         showMode('date');
+//     };
+
+//     const showTimepicker = () => {
+//         showMode('time');
+//     };
+
+//     return (
+//         <View>
+//         <View>
+//             <Button onPress={showDatepicker} title="Show date picker!" />
+//         </View>
+//         <View>
+//             <Button onPress={showTimepicker} title="Show time picker!" />
+//         </View>
+//             {show && (
+//                 <DateTimePicker
+//                 testID="dateTimePicker"
+//                 timeZoneOffsetInMinutes={0}
+//                 value={date}
+//                 mode={mode}
+//                 is24Hour={true}
+//                 display="default"
+//                 onChange={onChange}
+//                 />
+//             )}
+//         </View>
+//     );
+// };
+
+// export default Signup;

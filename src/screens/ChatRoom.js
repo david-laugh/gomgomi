@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Text, View, Animated, ScrollView } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import styled from 'styled-components/native';
 import initialMessages from '../examples/messages';
@@ -7,19 +7,20 @@ import { GiftedChat } from 'react-native-gifted-chat';
 import { renderInputToolbar, renderSend } from '../utils/InputToolbar';
 import {
     renderSystemMessage,
-    renderMessageText,
-    renderMessage,
     renderBubble,
 } from '../components/MessageContainer';
 import { UserContext } from '../contexts';
 import uuid from 'react-native-uuid';
+import { Icon } from 'react-native-elements';
+
+const gomgomi = require('../../assets/callGomgomi.png');
 
 const Container = styled.View`
     flex: 1;
-    background-color: ${({ theme }) => theme.background};
+    background-color: #ffffff;
 `;
 
-const ChatRoom = () => {
+const ChatRoom = ({ navigation }) => {
     const { chat, chatbot } = useContext(UserContext);
     const [messages, setMessages] = useState([]);
 
@@ -31,26 +32,42 @@ const ChatRoom = () => {
         setMessages((prevMessages) =>
             GiftedChat.append(prevMessages, newMessages)
         );
-        chatbot(newMessages[0].text);
-        console.log(chat);
-        setMessages((prevMessages) => 
-            GiftedChat.append(prevMessages, [
-                {
-                    _id: uuid.v4(),
-                    text: chat,
-                    createdAt: new Date(Date.UTC(2022, 4, 21, 5, 20, 0)),
-                    user: {
-                        _id: 2,
-                        name: 'Gomgomi',
-                        avatar: 'https://placeimg.com/140/140/any',
-                    },
-                }
-            ])
-        );
+        setTimeout(() => {
+            chatbot(newMessages[0].text);
+            console.log(chat);
+            setMessages((prevMessages) => 
+                GiftedChat.append(prevMessages, [
+                    {
+                        _id: uuid.v4(),
+                        text: chat,
+                        createdAt: new Date(),
+                        user: {
+                            _id: 2,
+                            name: 'Gomgomi',
+                            avatar: gomgomi,
+                        },
+                    }
+                ])
+            );
+        }, 2000)
     };
 
     return (
         <Container>
+            <View style={styles.case1}>
+                <View style={styles.case2}></View>
+                <View style={styles.case3}>
+                    <Icon
+                        name="chevron-left"
+                        size={20}
+                        color="black"
+                        type="entypo"
+                        onPress={() => navigation.goBack()}
+                    />
+                    <Text style={styles.textCase1}>Chat Talk</Text>
+                    <View></View>
+                </View>
+            </View>
             <GiftedChat
                 placeholder="Enter a message..."
                 messages={messages}
@@ -61,7 +78,7 @@ const ChatRoom = () => {
                     name: 'Aaron',
                     avatar: 'https://placeimg.com/150/150/any',
                 }}
-                messagesContainerStyle={{ backgroundColor: '#E5E5E5' }}
+                messagesContainerStyle={{ backgroundColor: '#ffffff' }}
                 renderBubble={renderBubble}
                 renderSystemMessage={renderSystemMessage}
                 // renderMessage={renderMessage}
@@ -73,3 +90,29 @@ const ChatRoom = () => {
 };
 
 export default ChatRoom;
+
+const styles = StyleSheet.create({
+    textCase1: {
+        fontSize: 20,
+        fontWeight: "bold",
+    },
+
+    case1: {
+        width: '100%',
+        height: '15%',
+        alignItems: 'center',
+    },
+    case2: {
+        width: '100%',
+        height: '12%',
+        backgroundColor: '#E8F2FF',
+    },
+    case3: {
+        width: '100%',
+        height: '100%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        backgroundColor: '#E8F2FF',
+    },
+});

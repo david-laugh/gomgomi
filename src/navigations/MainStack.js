@@ -35,7 +35,7 @@ const MainStack = () => {
                 name="ChatRoom"
                 component={ChatRoom}
                 options={{ 
-                    title: 'Chat Talk',
+                    headerShown: false,
                 }}
             />
             <Stack.Screen

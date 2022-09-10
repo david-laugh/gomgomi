@@ -1,3 +1,5 @@
+const gomgomi = require('../../assets/callGomgomi.png');
+
 const messages = [
     {
         _id: 2,
@@ -16,7 +18,7 @@ const messages = [
         user: {
             _id: 2,
             name: 'Gomgomi',
-            avatar: 'https://placeimg.com/140/140/any',
+            avatar: gomgomi,
         },
     },
     {
@@ -36,7 +38,7 @@ const messages = [
         user: {
             _id: 2,
             name: 'Gomgomi',
-            avatar: 'https://placeimg.com/140/140/any',
+            avatar: gomgomi,
         },
     },
     {
@@ -46,7 +48,7 @@ const messages = [
         user: {
             _id: 2,
             name: 'React Native',
-            avatar: 'https://placeimg.com/140/140/any',
+            avatar: gomgomi,
         },
         quickReplies: {
             type: 'radio', // or 'checkbox',

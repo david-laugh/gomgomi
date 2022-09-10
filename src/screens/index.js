@@ -17,5 +17,5 @@ export {
     Profile, 
     ChatRoom, 
     EditProfile,
-    ChatCallRoom
+    ChatCallRoom,
 };
