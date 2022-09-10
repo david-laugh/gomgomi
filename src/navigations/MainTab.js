@@ -3,10 +3,14 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Home, ChatCall, ChatTalk, Profile } from '../screens';
 import { Image } from 'react-native';
 
-const call = require('../../assets/tab/call.png');
-const chat = require('../../assets/tab/chat.png');
-const home = require('../../assets/tab/home.png');
-const profile = require('../../assets/tab/profile.png');
+const abled_call = require('../../assets/tab/abled/call.png');
+const abled_talk = require('../../assets/tab/abled/talk.png');
+const abled_home = require('../../assets/tab/abled/home.png');
+const abled_profile = require('../../assets/tab/abled/profile.png');
+const disabled_call = require('../../assets/tab/disabled/call.png');
+const disabled_talk = require('../../assets/tab/disabled/talk.png');
+const disabled_home = require('../../assets/tab/disabled/home.png');
+const disabled_profile = require('../../assets/tab/disabled/profile.png');
 
 const Tab = createBottomTabNavigator();
 
@@ -18,9 +22,9 @@ const MainTab = () => {
                 component={Home}
                 options={{
                     headerShown: false,
-                    tabBarIcon: () => (
+                    tabBarIcon: ({focused}) => (
                         <Image
-                            source={home}
+                            source={focused ? abled_home : disabled_home}
                         />
                     ),
                     tabBarActiveTintColor: "#000000",
@@ -31,9 +35,9 @@ const MainTab = () => {
                 component={ChatCall}
                 options={{
                     headerShown: false,
-                    tabBarIcon: () => (
+                    tabBarIcon: ({focused}) => (
                         <Image
-                            source={call}
+                            source={focused ? abled_call : disabled_call}
                         />
                     ),
                     tabBarActiveTintColor: "#000000",
@@ -44,9 +48,9 @@ const MainTab = () => {
                 component={ChatTalk}
                 options={{
                     headerShown: false,
-                    tabBarIcon: () => (
+                    tabBarIcon: ({focused}) => (
                         <Image
-                            source={chat}
+                            source={focused ? abled_talk : disabled_talk}
                         />
                     ),
                     tabBarActiveTintColor: "#000000",
@@ -57,9 +61,9 @@ const MainTab = () => {
                 component={Profile}
                 options={{
                     headerShown: false,
-                    tabBarIcon: () => (
+                    tabBarIcon: ({focused}) => (
                         <Image
-                            source={profile}
+                            source={focused ? abled_profile : disabled_profile}
                         />
                     ),
                     tabBarActiveTintColor: "#000000",
