@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, useContext } from 'react';
 import styled from 'styled-components/native';
 import { Text, View, StyleSheet, Dimensions } from 'react-native';
 import { Graph } from '../components';
+import { UserContext } from '../contexts';
 
 const BG = require('../../assets/BG.png');
 const profile = require('../../assets/profile.png');
@@ -39,17 +40,19 @@ export default class Home extends Component {
 
 // _Component
 const Profile = ({}) => {
+    const { user } = useContext(UserContext);
+
     return (
         <View style={{
+            marginTop: '20%',
             width: '90%',
             height: '10%',
             justifyContent: 'center',
-            marginTop: '10%'
         }}>
             <View style={{
                 flex: 1,
-                height: '100%',
                 flexDirection: 'row',
+                alignItems: 'center',
             }}>
                 <ImgProfile 
                     style={{
@@ -59,7 +62,7 @@ const Profile = ({}) => {
                     source={profile}
                 />
                 <View style={{paddingLeft: '5%'}}>
-                    <Text style={{fontSize: 20, fontWeight: "bold"}}>홍길동</Text>
+                    <Text style={{fontSize: 20, fontWeight: "bold"}}>{user.name}</Text>
                     <Text style={{height: 7}}></Text>
                     <Text style={{color: '#86888a'}}>곰고미에 오신것을 환영합니다</Text>
                 </View>
@@ -72,12 +75,15 @@ const WeeklyGraph = ({}) => {
         <View style={{
             flex: 1,
             width: '100%',
-            height: '68%',
+            height: '50%',
+            marginTop: '8%'
         }}>
             <View style={{
                 width: '90%',
-                height: '14%',
+                height: '8%',
                 justifyContent: 'center',
+                paddingLeft: '5%',
+                marginBottom: '3%'
             }}>
                 <Text style={{
                     fontSize: 20,
@@ -87,68 +93,75 @@ const WeeklyGraph = ({}) => {
                 </Text>
             </View>
             <View style={{
-                height: '93%',
+                height: '80%',
                 width: '100%',
                 alignItems: 'center',
-                justifyContent: 'center',
+                justifyContent: 'center'
             }}>
                 <View style={{
-                    height: '92%',
+                    height: '100%',
                     width: '90%',
                     borderRadius: 15,
                     backgroundColor: "rgba(255, 255, 255, 0.3)",
                     alignItems: 'center',
                 }}>
                     <View style={{
-                        height: '10%',
+                        height: '15%',
                         alignItems: 'center',
                         justifyContent: 'center',
+                        marginBottom: '4%'
                     }}>
-                        <Text>{"< \t 2022.05.30 ~ 2022.06.03 \t >"}</Text>
+                        <Text style={{
+                            fontWeight: "bold",
+                        }}>
+                            {"< \t\t 2022.09.12 ~ 2022.09.18 \t\t >"}
+                        </Text>
                     </View>
                     <View style={{
                         flexDirection: 'row',
-                        paddingRight: '5%'
+                        paddingRight: '5%',
+                        marginBottom: '5%',
                     }}>
                         <View style={{
-                            width: '20%'
+                            width: '20%',
+                            alignItems: 'center',
                         }}>
                             <ImgEmoji 
                                 style={{
-                                    height: windowWidth * 0.1,
-                                    width: windowWidth * 0.1,
-                                    marginBottom: '10%'
+                                    height: windowWidth * 0.07,
+                                    width: windowWidth * 0.07,
+                                    marginBottom: '28%'
                                 }}
                                 source={green}
                             />
                             <ImgEmoji 
                                 style={{
-                                    height: windowWidth * 0.1,
-                                    width: windowWidth * 0.1,
-                                    marginBottom: '10%'
+                                    height: windowWidth * 0.07,
+                                    width: windowWidth * 0.07,
+                                    marginBottom: '28%'
                                 }}
                                 source={blue}
                             />
                             <ImgEmoji 
                                 style={{
-                                    height: windowWidth * 0.1,
-                                    width: windowWidth * 0.1,
-                                    marginBottom: '10%'
+                                    height: windowWidth * 0.07,
+                                    width: windowWidth * 0.07,
+                                    marginBottom: '28%'
                                 }}
                                 source={yellow}
                             />
                             <ImgEmoji 
                                 style={{
-                                    height: windowWidth * 0.1,
-                                    width: windowWidth * 0.1,
-                                    marginBottom: '10%'
+                                    height: windowWidth * 0.07,
+                                    width: windowWidth * 0.07,
+                                    marginBottom: '28%'
                                 }}
                                 source={purple}
                             />
                             <ImgEmoji 
                                 style={{
-                                    height: windowWidth * 0.1,
-                                    width: windowWidth * 0.1,
+                                    height: windowWidth * 0.07,
+                                    width: windowWidth * 0.07,
                                     marginBottom: '10%'
                                 }}
                                 source={red}
@@ -165,13 +178,14 @@ const GraphExplanation = ({}) => {
     return (
         <View style={{
             width: '100%',
-            height: '22%',
+            height: '21%',
             alignItems: 'center',
-            justifyContent: 'center',
+            paddingTop: '5%'
         }}>
             <Text style={{
                 fontSize: 20,
-                fontWeight: "bold"
+                fontWeight: "bold",
+                marginBottom: "5%"
             }}>
                 일주일간의 대화 기록이 없네요.
             </Text>

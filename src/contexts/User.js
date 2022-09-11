@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext, useEffect } from 'react';
+import React, { useState, createContext, useContext} from 'react';
 import { ProgressContext } from './';
 import ip_address from './../utils/ip_address';
 
@@ -7,7 +7,7 @@ const UserContext = createContext({
         email: null, 
         uid: null,
         token: null,
-        userName: null
+        name: null
     },
     dispatch: () => {},
 });
@@ -45,7 +45,7 @@ const UserProvider = ({ children }) => {
                 email: email,
                 uid: password,
                 token: json.Token,
-                userName: json.email
+                name: json.name
             });
             console.log(user);
             sentiment();
