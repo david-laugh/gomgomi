@@ -12,8 +12,7 @@ const Navigation = () => {
 
     return (
         <NavigationContainer>
-            <MainStack />
-            {/*{user?.token ? <MainStack /> : <AuthStack />}*/}
+            {user?.token ? <MainStack /> : <AuthStack />}
             {inProgress && <Spinner />}
         </NavigationContainer>
     );

@@ -7,7 +7,7 @@ export default class Graph extends Component{
         return (
             <View style={{
                 width: '80%',
-                height: '80%',
+                height: '84%',
             }}>
                 <View style={{
                     width: '100%',
@@ -56,7 +56,7 @@ const BarList = (props) => {
     for (let item of props.data) {
         items.push(
             <View style={{
-                width: '10%'
+                width: '8%'
             }}>
                 <View style={{
                     height: '100%',
