@@ -41,7 +41,7 @@ const PhotoButton = ({ onPress }) => {
     );
 };
 
-const Image = ({ url, imageStyle, rounded, showButton, onChangeImage }) => {
+const Image = ({ source, url, imageStyle, rounded, showButton, onChangeImage }) => {
     useEffect(() => {
         (async () => {
             try {
@@ -81,7 +81,8 @@ const Image = ({ url, imageStyle, rounded, showButton, onChangeImage }) => {
     return (
         <Container>
             <StyledImage
-                source={{ uri: url }}
+                // source={{ uri: url }}
+                source={source}
                 style={imageStyle}
                 rounded={rounded}
             />

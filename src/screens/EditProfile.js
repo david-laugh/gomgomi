@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import { ProgressContext, UserContext } from '../contexts';
 import styled from 'styled-components/native';
-import { Input, Button } from '../components';
+import { Input, Button, Image } from '../components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { validateEmail, removeWhitespace } from '../utils/common';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -65,11 +65,14 @@ const EditProfile = ({ navigation }) => {
         >
             <View style={styles.container}>
                 <View style={styles.case2}>
-                    <ImgProfile
+                    <Image
                         style={{
                             height: windowWidth * 0.35,
                             width: windowWidth * 0.35
                         }}
+                        showButton
+                        // Button을 누르면 디바이스의 이미지의 binary을 저장.
+                        // 이를 유저 정보에 저장.
                         source={profile} />
                 </View>
                 <View style={styles.case3}>
@@ -118,7 +121,7 @@ const EditProfile = ({ navigation }) => {
                 </View>
                 <View style={styles.case7}>
                     <Button
-                        title="회원가입 하기"
+                        title="수정 완료"
                         onPress={_handleSignUpButtonPress}
                         containerStyle={{
                             justifyContent: 'center',
@@ -139,8 +142,6 @@ const EditProfile = ({ navigation }) => {
 
 export default EditProfile;
 
-const ImgProfile = styled.Image`
-`;
 
 const styles = StyleSheet.create({
     container: {

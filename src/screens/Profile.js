@@ -3,7 +3,6 @@ import { UserContext } from '../contexts';
 import styled from 'styled-components/native';
 import { Alert, Text, View, StyleSheet, Dimensions } from 'react-native';
 import { Button, Accordian } from '../components';
-import { theme } from '../theme';
 
 const BG = require('../../assets/BG.png');
 const profile = require('../../assets/profile.png');
@@ -33,7 +32,7 @@ const menu = [
 ]
 
 const Profile = ({ navigation }) => {
-    const { dispatch, signup } = useContext(UserContext);
+    const { dispatch, signup, user } = useContext(UserContext);
 
     const _handleEditProfilePress = () => {
         navigation.navigate('EditProfile');
@@ -52,6 +51,7 @@ const Profile = ({ navigation }) => {
                             email: null,
                             uid: null,
                             token: null,
+                            name: null
                         }
                         dispatch(user);
                     }
@@ -102,10 +102,10 @@ const Profile = ({ navigation }) => {
                         />
                     </View>
                     <View style={styles.case3}>
-                        <Text style={styles.textCase2}>John Doe</Text>
+                        <Text style={styles.textCase2}>{user.name}</Text>
                     </View>
                     <View style={styles.case4}>
-                        <Text>JohnDoe@Gomgomi.com</Text>
+                        <Text>{user.email}</Text>
                     </View>
                     <View style={styles.case5}>
                         <View

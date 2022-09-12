@@ -27,9 +27,9 @@ export const theme = {
     testcase5: colors.green,
     testcase6: colors.pink,
 
-    imageBackground: colors.warning,
-    imageButtonBackground: colors.warning,
-    imageButtonIcon: colors.white,
+    imageBackground: colors.white,
+    imageButtonBackground: colors.white,
+    imageButtonIcon: colors.black,
     label: colors.blue,
     inputPlaceholder: colors.white,
     inputBorder: colors.gray,
