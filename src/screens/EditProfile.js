@@ -42,12 +42,12 @@ const EditProfile = ({ navigation }) => {
     };
 
     const createThreeButtonAlert = () => Alert.alert(
-        "회원가입을 완료했습니다",
-        "'곰고미'의 로그인 화면으로 이동됩니다.\n로그인 후 이용해주세요.",
+        "수정을 완료했습니다",
+        "'곰고미'의 프로필 화면으로 이동됩니다.",
         [
             {
                 text: "예",
-                onPress: () => {navigation.navigate('Login')}
+                onPress: () => {navigation.goBack()}
             }
         ]
     );
