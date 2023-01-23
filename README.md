@@ -1,7 +1,10 @@
-# gomgomi
-[2022-1 광운대학교 참빛설계학기 프로젝트] ~~딥러닝을 이용한 음성 감정 분석 및 음성 대화 봇 애플리케이션~~  
-=> 심리상담 챗봇 App [ Gomgomi ]
+# Gomgomi
+- 음성 챗봇 APP
 
-## Screen
-Home  
-<img src="./examples/home.png" width="30%" height="30%">
+## 0.0.1
+- AI와 채팅 기능
+- 감정 캘린더 관리 기능
+등등
+
+-- AI와의 채팅 기능 보완 필요..
+(idea) Socket 통신으로 실시간 채팅을 구현
