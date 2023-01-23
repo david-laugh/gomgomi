@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import { ProgressContext, UserContext } from '../contexts';
 import styled from 'styled-components/native';
-import { Input, Button } from '../components';
+import { Input, Button, Image } from '../components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { validateEmail, removeWhitespace } from '../utils/common';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -65,11 +65,12 @@ const Signup = ({ navigation }) => {
         >
             <View style={styles.container}>
                 <View style={styles.case2}>
-                    <ImgProfile
+                    <Image
                         style={{
                             height: windowWidth * 0.35,
                             width: windowWidth * 0.35
                         }}
+                        showButton
                         source={profile} />
                 </View>
                 <View style={styles.case3}>
@@ -139,8 +140,6 @@ const Signup = ({ navigation }) => {
 
 export default Signup;
 
-const ImgProfile = styled.Image`
-`;
 
 const styles = StyleSheet.create({
     container: {
