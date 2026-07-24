@@ -46,6 +46,7 @@ export const theme = {
     spinnerIndicator: colors.warning,
 
     listBorder: colors.warning,
+    listIcon: colors.black,
     listTime: colors.warning,
 
     sendButtonActivate: colors.warning,

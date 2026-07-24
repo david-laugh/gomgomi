@@ -10,6 +10,9 @@ npm-debug.*
 *.orig.*
 web-build/
 
+# local agent metadata
+.agents/
+
 # macOS
 .DS_Store
 

@@ -2,7 +2,10 @@ import React, { useState, createContext } from 'react';
 
 const ProgressContext = createContext({
     inProgress: false,
-    spinner: () => {},
+    spinner: {
+        start: () => {},
+        stop: () => {},
+    },
 });
 
 const ProgressProvider = ({ children }) => {

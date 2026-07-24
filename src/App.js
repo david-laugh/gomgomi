@@ -37,12 +37,12 @@ const App = () => {
 
     return isReady ? (
         <ThemeProvider theme={theme}>
-            <UserProvider>
-                <ProgressProvider>
+            <ProgressProvider>
+                <UserProvider>
                     <StatusBar barStyle="dark-content" />
                     <Navigation />
-                </ProgressProvider>
-            </UserProvider>
+                </UserProvider>
+            </ProgressProvider>
         </ThemeProvider>
     ) : (
         <AppLoading

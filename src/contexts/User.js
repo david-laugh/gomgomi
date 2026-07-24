@@ -1,6 +1,6 @@
-import React, { useState, createContext, useContext} from 'react';
-import { ProgressContext } from './';
-import ip_address from './../utils/ip_address';
+import React, { useState, createContext, useContext } from 'react';
+import { ProgressContext } from './Progress';
+import { requestJson } from '../utils/api';
 
 const UserContext = createContext({
     user: { 
@@ -9,6 +9,9 @@ const UserContext = createContext({
         token: null,
         name: null
     },
+    login: () => {},
+    signup: () => {},
+    chatbot: () => {},
     dispatch: () => {},
 });
 
@@ -22,105 +25,86 @@ const UserProvider = ({ children }) => {
     const dispatch = ({ email, uid, token }) => {
         setUser({ email, uid, token });
     };
-    // const value = { login, user, isLoading };
+
+    const runWithLoading = async (callback) => {
+        setIsLoading(true);
+        spinner.start();
+        try {
+            return await callback();
+        } finally {
+            setIsLoading(false);
+            spinner.stop();
+        }
+    };
 
     const login = async (email, password) => {
-        setIsLoading(true);
         try {
-            spinner.start;
-            const response = await fetch(`http://${ip_address}/login/`, {
+            const json = await runWithLoading(() => requestJson('/login/', {
                 method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type' : 'application/json',
-                },
-                body: JSON.stringify({
+                body: {
                     id: email, //'user2',
                     password: password //'12345678',
-                }),
-            }, 3000);
-            const json = await response.json();
+                },
+            }));
             console.log(json);
-            setUser({
+            const authenticatedUser = {
                 email: email,
                 uid: password,
                 token: json.Token,
                 name: json.name
-            });
-            console.log(user);
-            sentiment();
+            };
+            setUser(authenticatedUser);
+            await sentiment(authenticatedUser.token);
         } catch (error) {
             console.error(error);
-        } finally {
-            setIsLoading(false);
-            spinner.stop;
         }
     };
 
     const signup = async (userName, password, email) => {
-        setIsLoading(true);
         try {
-            const response = await fetch(`http://${ip_address}/register/`, {
+            const json = await runWithLoading(() => requestJson('/register/', {
                 method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type' : 'application/json',
-                },
-                body: JSON.stringify({
+                body: {
                     id: email,
                     password: password,
                     email: userName
-                }),
-            }, 3000);
-            const json = await response.json();
+                },
+            }));
             console.log(json);
+            return json;
         } catch (error) {
             console.error(error);
-        } finally {
-            setIsLoading(false);
         }
     };
 
     const chatbot = async (message) => {
-        setIsLoading(true);
         try {
-            const response = await fetch(`http://${ip_address}/api/chatbot/`, {
+            const json = await runWithLoading(() => requestJson('/api/chatbot/', {
                 method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type' : 'application/json',
-                    'Authorization' : 'Token ' + user.token
-                },
-                body: JSON.stringify({
+                token: user.token,
+                body: {
                     sent : message
-                }),
-            }, 3000);
-            const json = await response.json();
+                },
+            }));
             setChat(json);
             console.log(json);
+            return json;
         } catch (error) {
             console.error(error);
-        } finally {
-            setIsLoading(false);
         }
     };
 
-    const sentiment = async () => {
-        setIsLoading(true);
+    const sentiment = async (token = user.token) => {
         try {
-            const response = await fetch(`http://${ip_address}/api/sentiment/`, {
+            const json = await runWithLoading(() => requestJson('/api/sentiment/', {
                 method: 'GET',
-                headers: {
-                    'Authorization' : 'Token ' + user.token
-                },
-            }, 3000);
-            const json = await response.json();
+                token,
+            }));
             console.log(json);
             setSenti(json);
+            return json;
         } catch (error) {
             console.error(error);
-        } finally {
-            setIsLoading(false);
         }
     };
 

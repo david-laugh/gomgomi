@@ -7,6 +7,7 @@ import { WaveIndicator } from 'react-native-indicators';
 import uuid from 'react-native-uuid';
 import { Audio } from 'expo-av';
 import * as FileSystem from 'expo-file-system';
+import { createApiUrl } from '../utils/api';
 
 const BG = require('../../assets/BG.png');
 const mike = require('../../assets/mike.png');
@@ -47,11 +48,8 @@ const ChatCallRoom = ({ navigation }) => {
     const [Amike, setAMike] = useState(false);
     const [recording, setRecording] = React.useState();
     const [recordings, setRecordings] = React.useState([]);
-    const [message, setMessage] = React.useState("");
-    const [data, setData] = React.useState({});
-    const [kakao, setKakao] = React.useState("");
+    const [data, setData] = React.useState("");
     const [binary, setBinary] = React.useState("");
-    const [loading, setLoading] = useState(true);
     const [audioUri, setAudioUri] = useState("");
 
     const { user } = useContext(UserContext);
@@ -98,7 +96,7 @@ const ChatCallRoom = ({ navigation }) => {
             setRecording(recording);
             setAudioUri(recording.getURI())
         } else {
-            setMessage("Please grant permission to app to access microphone");
+            console.warn("Please grant permission to app to access microphone");
         }
         } catch (err) {
             console.error('Failed to start recording', err);
@@ -136,20 +134,17 @@ const ChatCallRoom = ({ navigation }) => {
         const formdata = new FormData();
         formdata.append("voice", binary);
         try {
-            const response = await fetch('http://_____/api/voice_chatbot/', {
+            const response = await fetch(createApiUrl('/api/voice_chatbot/'), {
                 method: 'POST',
                 headers: {
-                    'Authorization' : 'Token c940dfe459dd8068c392e2e475fb40cd1908155d',
-                    'Content-Type' : "maltipart/form-data"
+                    'Authorization' : `Token ${user.token}`,
                 },
                 body: formdata
-            }, 3000);
+            });
             const json = await response.text();
             setData(json);
         } catch (error) {
             console.error(error);
-        } finally {
-            setLoading(false);
         }
     };
 

@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components/native';
 import { Text, View, StyleSheet, Dimensions } from 'react-native';
 import { Button } from '../components';
-import { theme } from '../theme';
 
 const BG = require('../../assets/BG.png');
 const Gomgomi = require('../../assets/Gomgomi.png');

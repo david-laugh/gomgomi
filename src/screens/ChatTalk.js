@@ -2,7 +2,6 @@ import React, { useContext }  from 'react';
 import styled, { ThemeContext } from 'styled-components/native';
 import { Text, View, StyleSheet, Dimensions, FlatList } from 'react-native';
 import { Button } from '../components';
-import { theme } from '../theme';
 import moment from 'moment';
 import { MaterialIcons } from '@expo/vector-icons';
 

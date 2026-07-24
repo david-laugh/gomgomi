@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import styled from 'styled-components/native';
 import initialMessages from '../examples/messages';
 import { GiftedChat } from 'react-native-gifted-chat';
@@ -21,35 +20,42 @@ const Container = styled.View`
 `;
 
 const ChatRoom = ({ navigation }) => {
-    const { chat, chatbot } = useContext(UserContext);
+    const { chatbot } = useContext(UserContext);
     const [messages, setMessages] = useState([]);
 
     useEffect(() => {
-        setMessages(initialMessages.reverse());
+        setMessages([...initialMessages].reverse());
     }, []);
 
-    const onSend = (newMessages = []) => {
+    const normalizeBotMessage = (response) => {
+        if (response == null) {
+            return '응답을 가져오지 못했습니다.';
+        }
+        if (typeof response === 'string') {
+            return response;
+        }
+        return response?.answer ?? response?.message ?? JSON.stringify(response);
+    };
+
+    const onSend = async (newMessages = []) => {
         setMessages((prevMessages) =>
             GiftedChat.append(prevMessages, newMessages)
         );
-        setTimeout(() => {
-            chatbot(newMessages[0].text);
-            console.log(chat);
-            setMessages((prevMessages) => 
-                GiftedChat.append(prevMessages, [
-                    {
-                        _id: uuid.v4(),
-                        text: chat,
-                        createdAt: new Date(),
-                        user: {
-                            _id: 2,
-                            name: 'Gomgomi',
-                            avatar: gomgomi,
-                        },
-                    }
-                ])
-            );
-        }, 2000)
+        const response = await chatbot(newMessages[0].text);
+        setMessages((prevMessages) =>
+            GiftedChat.append(prevMessages, [
+                {
+                    _id: uuid.v4(),
+                    text: normalizeBotMessage(response),
+                    createdAt: new Date(),
+                    user: {
+                        _id: 2,
+                        name: 'Gomgomi',
+                        avatar: gomgomi,
+                    },
+                }
+            ])
+        );
     };
 
     return (

@@ -1,24 +1,20 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
-import { ProgressContext, UserContext } from '../contexts';
+import { UserContext } from '../contexts';
 import styled from 'styled-components/native';
 import { Input, Button } from '../components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { validateEmail, removeWhitespace } from '../utils/common';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { View, StyleSheet, Text } from 'react-native';
-import { theme } from '../theme';
 
 const Gomgomi = require('../../assets/gomgomi_head.png');
 
 const Login = ({ navigation }) => {
     const { login } = useContext(UserContext);
-    const { spinner } = useContext(ProgressContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const passwordRef = useRef();
     const [errorMessage, setErrorMessage] = useState('');
     const [disabled, setDisabled] = useState(true);
-    const insets = useSafeAreaInsets();
 
     useEffect(() => {
         setDisabled(!(email && password && !errorMessage));
@@ -44,7 +40,7 @@ const Login = ({ navigation }) => {
             contentContainerStyle={{ flex: 1 }}
             extraScrollHeight={20}
         >
-            <View style={styles.container} insets={insets}>
+            <View style={styles.container}>
                 <View style={styles.case1}>
                 </View>
                 <View style={styles.case2}>
@@ -60,7 +56,7 @@ const Login = ({ navigation }) => {
                         value={email}
                         onChangeText={_handleEmailChange}
                         onSubmitEditing={() => passwordRef.current.focus()}
-                        placeholer="Email"
+                        placeholder="Email"
                         returnKeyType="next"
                     />
                 </View>
@@ -188,7 +184,6 @@ const styles = StyleSheet.create({
         height: '3%',
         paddingLeft: '9%',
         justifyContent: 'center',
-        backgroundColor: theme.testcase6,
     },
     case7: {
         width: '90%',
